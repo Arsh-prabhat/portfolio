@@ -1,0 +1,38 @@
+<svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="500" fill="#121316"/>
+  <defs>
+    <pattern id="dot-pattern-4" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="#FFFFFF" fill-opacity="0.08"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="500" fill="url(#dot-pattern-4)"/>
+
+  <g transform="translate(150, 80)">
+    <rect width="500" height="340" rx="16" fill="#1A1D24" stroke="#8B5CF6" stroke-width="2"/>
+    <text x="30" y="45" font-family="sans-serif" font-size="14" font-weight="bold" fill="#A78BFA">Tokens & Variables</text>
+    
+    <!-- Color Swatches -->
+    <circle cx="50" cy="90" r="18" fill="#0EA5E9"/>
+    <circle cx="100" cy="90" r="18" fill="#6366F1"/>
+    <circle cx="150" cy="90" r="18" fill="#8B5CF6"/>
+    <circle cx="200" cy="90" r="18" fill="#10B981"/>
+    <circle cx="250" cy="90" r="18" fill="#F59E0B"/>
+
+    <!-- Component Buttons -->
+    <rect x="30" y="140" width="130" height="36" rx="6" fill="#8B5CF6"/>
+    <text x="95" y="162" font-family="sans-serif" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Primary Btn</text>
+
+    <rect x="180" y="140" width="130" height="36" rx="6" fill="transparent" stroke="#8B5CF6" stroke-width="1.5"/>
+    <text x="245" y="162" font-family="sans-serif" font-size="12" font-weight="bold" fill="#A78BFA" text-anchor="middle">Secondary Btn</text>
+
+    <rect x="330" y="140" width="130" height="36" rx="18" fill="#252A34"/>
+    <text x="395" y="162" font-family="sans-serif" font-size="12" fill="#9CA3AF" text-anchor="middle">Pill Badge</text>
+
+    <!-- Inputs -->
+    <rect x="30" y="210" width="430" height="40" rx="8" fill="#20242F" stroke="#374151" stroke-width="1"/>
+    <text x="45" y="235" font-family="sans-serif" font-size="12" fill="#6B7280">Search components (Cmd + K)...</text>
+  </g>
+
+  <rect x="150" y="54" width="140" height="18" rx="3" fill="#8B5CF6"/>
+  <text x="158" y="67" font-family="sans-serif" font-size="10" font-weight="bold" fill="#FFFFFF">Design System v1.0</text>
+</svg>

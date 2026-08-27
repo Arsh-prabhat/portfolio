@@ -1,0 +1,40 @@
+<svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="500" fill="#121316"/>
+  <!-- Canvas Texture -->
+  <defs>
+    <pattern id="dot-pattern-1" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="#FFFFFF" fill-opacity="0.08"/>
+    </pattern>
+    <linearGradient id="grad-matrimonial" x1="0" y1="0" x2="800" y2="500" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E11D48" stop-opacity="0.15"/>
+      <stop offset="1" stop-color="#0EA5E9" stop-opacity="0.05"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#dot-pattern-1)"/>
+  <rect width="800" height="500" fill="url(#grad-matrimonial)"/>
+  
+  <!-- Figma Mobile Wireframe Card UI -->
+  <rect x="250" y="40" width="300" height="420" rx="24" fill="#1A1D24" stroke="#2E333D" stroke-width="2"/>
+  <!-- Status Bar -->
+  <rect x="270" y="56" width="60" height="8" rx="4" fill="#3B4252"/>
+  <rect x="470" y="56" width="60" height="8" rx="4" fill="#3B4252"/>
+  <!-- Hero Avatar & Profile -->
+  <rect x="270" y="80" width="260" height="180" rx="16" fill="#242936"/>
+  <circle cx="400" cy="150" r="40" fill="#E11D48" fill-opacity="0.3" stroke="#F43F5E" stroke-width="2"/>
+  <!-- Verified Badge -->
+  <rect x="350" y="200" width="100" height="24" rx="12" fill="#0EA5E9" fill-opacity="0.2" stroke="#0EA5E9" stroke-width="1"/>
+  <text x="400" y="216" font-family="sans-serif" font-size="11" font-weight="600" fill="#38BDF8" text-anchor="middle">VERIFIED 98%</text>
+
+  <!-- Profile Detail Cards -->
+  <rect x="270" y="275" width="260" height="12" rx="4" fill="#4C566A"/>
+  <rect x="270" y="295" width="180" height="10" rx="4" fill="#3B4252"/>
+  
+  <!-- Action Buttons -->
+  <circle cx="340" cy="380" r="28" fill="#2E333D" stroke="#4C566A" stroke-width="1.5"/>
+  <circle cx="400" cy="380" r="32" fill="#E11D48" stroke="#F43F5E" stroke-width="2"/>
+  <circle cx="460" cy="380" r="28" fill="#0EA5E9" stroke="#38BDF8" stroke-width="1.5"/>
+  
+  <!-- Figma Frame Label -->
+  <rect x="250" y="16" width="120" height="18" rx="3" fill="#0EA5E9"/>
+  <text x="258" y="29" font-family="sans-serif" font-size="10" font-weight="bold" fill="#FFFFFF">Matrimonial / Feed</text>
+</svg>
