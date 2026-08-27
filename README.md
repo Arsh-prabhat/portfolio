@@ -1,4 +1,4 @@
-# [Your Name] — UI/UX Design Portfolio
+# Arsh Prabhat — UI/UX Design Portfolio
 
 A Figma-inspired, glassmorphic portfolio site for an entry-level / Jr. Product Designer, built to be read by AI coding agents (Google Antigravity) and implemented with minimal guessing.
 
