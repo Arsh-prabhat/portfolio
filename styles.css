@@ -1,0 +1,1478 @@
+/* ============================================================
+   Arsh Prabhat — Portfolio
+   Hero: single-viewport "Front Page" that tears open on scroll
+   ============================================================ */
+
+:root {
+  --paper:        #ece8dd;
+  --paper-2:      #f2efe6;
+  --ink:          #171512;
+  --ink-soft:     #4a453d;
+  --rule:         #171512;
+  --hairline:     rgba(23, 21, 18, 0.28);
+  --marker:       #2b53e6;
+  --marker-ink:   #f4f2ea;
+
+  --serif-display: "Playfair Display", "Times New Roman", Georgia, serif;
+  --serif-text:    "Spectral", "Iowan Old Style", Georgia, "Times New Roman", serif;
+
+  --fs-side:      0.625rem;
+  --fs-name:      clamp(1rem, 1.5vw, 1.3rem);
+  --fs-kicker:    0.6875rem;
+  --fs-headline:  clamp(2.4rem, min(8vw, 12vh), 5.75rem);
+  --fs-deck:      clamp(0.85rem, 1.35vw, 1.15rem);
+  --fs-toc:       clamp(0.9rem, 1.1vw, 1.05rem);
+
+  --sheet-max:    1560px;
+  --sheet-pad-x:  clamp(1.1rem, 4vw, 3.5rem);
+  --gutter:       clamp(1.1rem, 2.6vw, 2.4rem);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { -webkit-text-size-adjust: 100%; background: #000; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif-text);
+  font-size: 1rem;
+  line-height: 1.5;
+  font-feature-settings: "kern" 1, "liga" 1, "onum" 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img, svg { display: block; max-width: 100%; }
+::selection { background: var(--marker); color: var(--marker-ink); }
+
+/* ============================================================
+   SCENE  —  two fixed layers; the paper tears to reveal the collage
+   ============================================================ */
+.layer {
+  position: fixed;
+  inset: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+.layer--paper   { z-index: 2; background: transparent; pointer-events: none; }
+
+/* Continuous dark background canvas containing hero collage + projects */
+.layer--collage {
+  position: relative;
+  z-index: 0;
+  background: #000000;
+  min-height: 100vh;
+  width: 100%;
+  overflow: visible;
+}
+
+.collage-hero-section,
+.collage-hero-viewport {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 650px;
+  overflow: hidden;
+}
+
+/* scroll distance that drives the initial paper tear & burst */
+.scroll-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 140vh;
+  pointer-events: none;
+}
+
+/* ============================================================
+   PAPER  —  the front page
+   ============================================================ */
+.paper {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--paper);
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+/* faint newsprint texture */
+.paper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image:
+    repeating-linear-gradient(0deg, #000 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, #000 0 1px, transparent 1px 3px);
+}
+
+/* original paper is dropped from paint once JS builds the two torn halves */
+.paper.is-torn { visibility: hidden; }
+
+/* once the tear is complete, drop the whole paper layer so the
+   collage behind it composites cleanly (restored on scroll-up) */
+.layer--paper.tear-done { visibility: hidden; pointer-events: none; }
+
+.sheet {
+  position: relative;
+  height: 100%;
+  max-width: var(--sheet-max);
+  margin-inline: auto;
+  padding: clamp(0.9rem, 2.4vh, 1.6rem) var(--sheet-pad-x) clamp(1rem, 3vh, 2rem);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- ZONE 1 — MASTHEAD ---------- */
+.masthead {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: baseline;
+  gap: var(--gutter);
+  padding-block: clamp(0.4rem, 1vh, 0.65rem);
+  border-top: 3px double var(--rule);
+  border-bottom: 2px solid var(--rule);
+  flex: 0 0 auto;
+}
+.masthead__side {
+  font-size: var(--fs-side);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.masthead__side--right { text-align: right; }
+.masthead__name {
+  font-family: var(--serif-display);
+  font-weight: 700;
+  font-size: var(--fs-name);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-indent: 0.22em;
+}
+
+/* ---------- ZONE 2 — HEADLINE ---------- */
+.headline {
+  font-family: var(--serif-display);
+  font-weight: 900;
+  font-size: var(--fs-headline);
+  line-height: 0.88;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  margin-top: clamp(0.8rem, 2.5vh, 2rem);
+  flex: 0 0 auto;
+}
+.headline__line { display: block; }
+.headline__dot { color: var(--marker); }
+
+/* ---------- ZONE 3 — DECK ---------- */
+.deck {
+  font-family: var(--serif-text);
+  font-style: italic;
+  font-size: var(--fs-deck);
+  color: var(--ink-soft);
+  max-width: 52ch;
+  margin-top: clamp(0.6rem, 1.6vh, 1rem);
+  padding-bottom: clamp(0.6rem, 1.6vh, 1rem);
+  border-bottom: 1px solid var(--rule);
+  flex: 0 0 auto;
+}
+
+/* ---------- ZONE 4 — THREE COLUMNS ---------- */
+.columns {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1.12fr 1fr;
+  gap: var(--gutter);
+  margin-top: clamp(0.8rem, 2vh, 1.5rem);
+}
+
+.col { min-height: 0; overflow: hidden; }
+
+.col--portrait,
+.col--index {
+  padding-left: var(--gutter);
+  border-left: 1px solid var(--hairline);
+}
+
+.kicker {
+  font-family: var(--serif-text);
+  font-weight: 600;
+  font-size: var(--fs-kicker);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.7rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* LEFT: bio */
+.bio p { text-align: justify; hyphens: auto; font-size: clamp(0.78rem, 0.92vw, 0.9rem); line-height: 1.42; }
+.bio p + p { margin-top: 0.6rem; }
+.dropcap {
+  float: left;
+  font-family: var(--serif-display);
+  font-weight: 900;
+  font-size: 3.2em;
+  line-height: 0.74;
+  padding-right: 0.08em;
+  margin-top: 0.06em;
+}
+.bio__closing { font-weight: 600; }
+
+/* CENTER: portrait */
+.col--portrait { display: flex; flex-direction: column; }
+.portrait {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  background: radial-gradient(120% 90% at 50% 16%, #b9b4a6 0%, #6f6a5e 45%, #2b2823 100%);
+}
+.portrait__figure { position: absolute; inset: 0; width: 100%; height: 100%; }
+.portrait__figure path { fill: #14120f; opacity: 0.82; }
+.portrait__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  filter: contrast(1.05);
+}
+.portrait__grain {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, #000 34%, transparent 38%);
+  background-size: 6px 6px;
+  mix-blend-mode: overlay;
+  opacity: 0.5;
+  pointer-events: none;
+}
+.unwrap {
+  align-self: center;
+  margin-top: -2.7rem;
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.7rem 1.4rem;
+  background: var(--ink);
+  color: var(--paper-2);
+  border: none;
+  border-radius: 999px;
+  font-family: var(--serif-text);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+.unwrap:hover { transform: translateY(-2px); background: #000; }
+.unwrap:focus-visible { outline: 2px solid var(--marker); outline-offset: 3px; }
+.unwrap__arrow { animation: bob 1.6s ease-in-out infinite; }
+@keyframes bob {
+  0%, 100% { transform: translateY(-1px); }
+  50%      { transform: translateY(2px); }
+}
+.caption {
+  font-size: 0.66rem;
+  color: var(--ink-soft);
+  margin-top: 0.6rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid var(--hairline);
+  text-align: center;
+}
+
+/* RIGHT: table of contents */
+.toc { list-style: none; }
+.toc__item { border-bottom: 1px solid var(--hairline); }
+.toc__item:last-child { border-bottom: none; }
+.toc__item a {
+  display: block;
+  padding: clamp(0.3rem, 0.9vh, 0.55rem) 0.35rem;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.18s ease, padding-left 0.18s ease;
+}
+.toc__item a:hover,
+.toc__item a:focus-visible {
+  background: var(--marker);
+  color: var(--marker-ink);
+  padding-left: 0.65rem;
+  outline: none;
+}
+.toc__row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.7rem; }
+.toc__title { font-family: var(--serif-display); font-weight: 700; font-size: var(--fs-toc); line-height: 1.18; }
+.toc__page { font-size: var(--fs-side); letter-spacing: 0.14em; color: var(--ink-soft); white-space: nowrap; }
+.toc__item a:hover .toc__page,
+.toc__item a:focus-visible .toc__page { color: var(--marker-ink); }
+.toc__desc { display: block; font-size: clamp(0.68rem, 0.8vw, 0.8rem); color: var(--ink-soft); margin-top: 0.12rem; }
+.toc__item a:hover .toc__desc,
+.toc__item a:focus-visible .toc__desc { color: var(--marker-ink); }
+.toc__item--marked .toc__title { background: var(--marker); color: var(--marker-ink); box-shadow: 0 0 0 2px var(--marker); }
+
+/* ============================================================
+   TEAR LAYER  —  the two torn halves (built by JS)
+   ============================================================ */
+.tear-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+.piece {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+/* depth only while the page is actually torn (avoids a seam line at rest) */
+.tear-layer.is-tearing .piece--top { filter: drop-shadow(0 26px 40px rgba(0, 0, 0, 0.6)); }
+.tear-layer.is-tearing .piece--bottom { filter: drop-shadow(0 -26px 40px rgba(0, 0, 0, 0.6)); }
+.piece .paper { position: absolute; inset: 0; opacity: 1; }
+/* interactive controls only live on the top half at rest */
+.piece--bottom .unwrap { pointer-events: none; }
+.piece--top { pointer-events: auto; }
+.piece .toc__item a { pointer-events: auto; }
+/* clip-paths are assigned inline by JS so both edges match exactly */
+
+/* ============================================================
+   REVEAL SECTION  —  the hand-made collage
+   ============================================================ */
+.reveal {
+  color: #fff;
+  --hand-red: #c23a35;          /* handwritten label / title colour (Figma #b03534) */
+  --edit-glow: rgba(194, 58, 53, 0.55);
+}
+
+/* ---- editable text: keep the handwriting, hint that it can be changed ---- */
+.edit {
+  font-family: "Caveat", "Gochi Hand", "Segoe Script", cursive;
+  outline: none;
+  border-radius: 4px;
+  transition: box-shadow 0.15s ease, background 0.15s ease;
+}
+.edit:hover { box-shadow: 0 0 0 1.5px rgba(194, 58, 53, 0.4); }
+.edit:focus {
+  box-shadow: 0 0 0 2px var(--edit-glow);
+  background: rgba(194, 58, 53, 0.1);
+}
+
+/* ---- nav ---- */
+.cnav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: clamp(1.2rem, 4vw, 3.5rem);
+  padding: clamp(1.1rem, 3vh, 2rem) 1.25rem;
+  background: linear-gradient(#000 62%, rgba(0, 0, 0, 0));
+  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+}
+.cnav__link {
+  color: #fff;
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.18s ease;
+}
+.cnav__link:hover { opacity: 0.6; }
+.cnav__name {
+  font-size: clamp(1.15rem, 1.9vw, 1.5rem);
+  color: var(--hand-red);
+  padding: 0.1em 0.35em;
+}
+
+/* ---- collage canvas — one fixed frame, everything visible at once ---- */
+.collage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* every pinned item */
+.sticker {
+  position: absolute;
+  margin: 0;
+  transform: rotate(var(--rot, 0deg));
+  transform-origin: 50% 60%;
+  cursor: pointer;
+  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55));
+}
+.sticker__art { position: relative; display: block; }
+
+/* CSS fallback hover (used when GSAP is unavailable) */
+.no-gsap .sticker:hover { transform: rotate(calc(var(--rot, 0deg) * 0.6)) translateY(-14px) scale(1.04); }
+
+/* doodle strokes — hidden until the sticker is active */
+.doodle {
+  position: absolute;
+  inset: -22% -22% -22% -22%;
+  width: 144%;
+  height: 144%;
+  overflow: visible;
+  pointer-events: none;
+}
+.doodle path,
+.doodle circle {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.sticker.is-active .doodle path,
+.sticker.is-active .doodle circle,
+.no-gsap .sticker:hover .doodle path,
+.no-gsap .sticker:hover .doodle circle {
+  animation: draw 0.45s ease forwards;
+}
+.doodle path:nth-child(2) { animation-delay: 0.06s; }
+.doodle path:nth-child(3) { animation-delay: 0.12s; }
+.doodle *:nth-child(4)    { animation-delay: 0.18s; }
+.doodle__ring { stroke-width: 2.4; stroke-dasharray: 1; opacity: 0.85; }
+.doodle__squiggle { stroke: #fff; }
+.doodle__rays path { animation-delay: 0s; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* ---- individual placements (exact match to reference frame) ---- */
+.sticker--frame { top: 36%; left: calc(50% - 15vw); width: clamp(260px, 30vw, 440px); z-index: 5; }  /* hero portrait: bottom-center */
+.sticker--plate { top: 18%; left: 22%;              width: clamp(125px, 14.5vw, 220px); z-index: 7; } /* diet coke: top-left-center */
+.sticker--stamp { top: 10%; left: 81%;              width: clamp(100px, 11vw, 170px); z-index: 6; }   /* phone: top-right */
+.sticker--song  { top: 24%; left: 51%;              width: clamp(200px, 22vw, 340px); z-index: 6; }   /* seedhe maut: top-mid-right */
+.sticker--tv    { top: 60%; left: 66%;              width: clamp(140px, 16vw, 260px); z-index: 6; }   /* headphones: bottom-right */
+.sticker--cam   { top: 30%; left: 2%;               width: clamp(140px, 16vw, 260px); z-index: 6; }   /* guitar: mid-left */
+
+/* ============================================================
+   APPLE-STYLE CASE STUDY MODAL OVERLAY
+   ============================================================ */
+.cs-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
+}
+
+.cs-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.cs-modal,
+.cs-modal * {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "SF Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.cs-modal {
+  width: min(92vw, 980px);
+  height: min(88vh, 850px);
+  background: #ffffff;
+  color: #1d1d1f;
+  border-radius: 24px;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.94) translateY(16px);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cs-overlay.is-open .cs-modal {
+  transform: scale(1) translateY(0);
+}
+
+/* macOS Window Bar */
+.cs-modal__bar {
+  height: 52px;
+  padding: 0 20px;
+  background: rgba(246, 246, 248, 0.95);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.cs-modal__dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cs-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  display: inline-block;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.cs-dot--red { background: #fd5d5c; }
+.cs-dot--yellow { background: #faca04; }
+.cs-dot--green { background: #34c75a; }
+.cs-dot:hover { opacity: 0.8; }
+
+.cs-modal__bar-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6e6e73;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Scrollable Case Study Body */
+.cs-modal__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: clamp(1.75rem, 4vw, 3.5rem);
+  scroll-behavior: smooth;
+}
+
+.cs-modal__body::-webkit-scrollbar {
+  width: 8px;
+}
+.cs-modal__body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.cs-modal__body::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 4px;
+}
+.cs-modal__body::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* Header Elements */
+.cs-header {
+  margin-bottom: 2rem;
+}
+
+.cs-header__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.cs-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: #f2f2f7;
+  color: #6e6e73;
+  letter-spacing: 0.02em;
+}
+
+.cs-tag--accent {
+  background: #0071e3;
+  color: #ffffff;
+}
+
+.cs-header__title {
+  font-size: clamp(1.8rem, 3.5vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #1d1d1f;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+
+.cs-header__sub {
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  color: #515154;
+  line-height: 1.5;
+  max-width: 72ch;
+}
+
+/* Hero Preview Frame */
+.cs-hero-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #f5f5f7;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2.5rem;
+}
+
+.cs-hero-frame__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Metrics Grid */
+.cs-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.cs-metric {
+  background: #f5f5f7;
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.cs-metric__value {
+  font-size: clamp(1.6rem, 2.8vw, 2.25rem);
+  font-weight: 800;
+  color: #0071e3;
+  line-height: 1.1;
+  margin-bottom: 0.25rem;
+}
+
+.cs-metric__label {
+  font-size: 0.825rem;
+  font-weight: 500;
+  color: #6e6e73;
+}
+
+/* Content Sections */
+.cs-section {
+  margin-bottom: 3rem;
+}
+
+.cs-section__heading {
+  font-size: clamp(1.25rem, 2vw, 1.6rem);
+  font-weight: 700;
+  color: #1d1d1f;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e5ea;
+}
+
+.cs-text {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #3a3a3c;
+  margin-bottom: 1rem;
+}
+
+.cs-text--lead {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #1d1d1f;
+}
+
+/* Gallery & Wireframe Placeholders */
+.cs-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.cs-gallery__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cs-placeholder-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 14px;
+  background: #f2f2f7;
+  border: 2px dashed #c7c7cc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #8e8e93;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.cs-gallery__caption {
+  font-size: 0.8rem;
+  color: #6e6e73;
+  font-style: italic;
+}
+
+/* Final Showcase Frame */
+.cs-showcase-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #f5f5f7;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  margin-top: 1.5rem;
+}
+
+.cs-showcase-frame__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Bullets */
+.cs-bullets {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cs-bullets li {
+  font-size: 1.025rem;
+  line-height: 1.6;
+  color: #3a3a3c;
+  padding-left: 1.75rem;
+  position: relative;
+}
+
+.cs-bullets li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 700;
+  color: #34c75a;
+}
+
+/* ============================================================
+   COLLAGE ART  —  real assets from the Figma frame
+   ============================================================ */
+/* portrait: transparent B&W cut-out, no frame */
+.art-frame { background: none; padding: 0; }
+.art-frame__photo {
+  aspect-ratio: 1089 / 1019;
+  overflow: visible;
+}
+.art-frame__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.art-frame__title {
+  position: absolute;
+  left: -12%;
+  top: 62%;
+  width: 70%;
+  font-size: clamp(1.6rem, 3.5vw, 3rem);
+  line-height: 0.9;
+  color: var(--hand-red);
+  transform: rotate(-8deg);
+  text-shadow: 0 3px 14px rgba(0, 0, 0, 0.95);
+  pointer-events: auto;
+  z-index: 8;
+}
+
+/* generic image sticker (guitar, headphones) */
+.art-photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* two overlapping Diet Coke cans */
+.art-coke { position: relative; }
+.art-coke img { display: block; }
+.art-coke__a { width: 56%; position: relative; z-index: 2; }
+.art-coke__b {
+  width: 52%;
+  position: absolute;
+  right: 0;
+  top: 16%;
+  transform: rotate(22deg);
+  z-index: 1;
+}
+
+/* phone mockup */
+.art-phone {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2px solid #111;
+  background: #000;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+.art-phone img { width: 100%; height: auto; display: block; }
+
+/* ---- the crack that splits the portrait open (driven by JS timeline) ---- */
+.crack {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  overflow: visible;
+}
+.crack__line {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;          /* undrawn until the timeline runs */
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.55));
+  vector-effect: non-scaling-stroke;
+}
+.crack__flash {
+  position: absolute;
+  inset: -20%;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at 50% 42%, #fff 0%, rgba(255,255,255,0.35) 30%, transparent 62%);
+  mix-blend-mode: screen;
+}
+
+/* Spotify-style card — Seedhe Maut (Figma: #cfcdcd bg, #3c3c3c text) */
+.art-song {
+  padding: 7%;
+  border-radius: 14px;
+  background: #cfcdcd;
+  color: #3c3c3c;
+}
+.art-song .edit { font-family: "Inter", system-ui, sans-serif; }
+.art-song__head { display: flex; gap: 9px; align-items: center; }
+.art-song__cover {
+  width: 15%;
+  aspect-ratio: 1;
+  min-width: 30px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #1b0707;
+  flex: none;
+}
+.art-song__cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.art-song__meta { display: flex; flex-direction: column; }
+.art-song__meta b {
+  font: 700 clamp(0.72rem, 1vw, 0.95rem)/1.2 "Inter", system-ui, sans-serif;
+  color: #3c3c3c;
+}
+.art-song__meta i {
+  font: 500 clamp(0.72rem, 1vw, 0.95rem)/1.2 "Inter", system-ui, sans-serif;
+  font-style: normal;
+}
+.art-song__lyric {
+  font: 700 clamp(0.92rem, 1.5vw, 1.25rem)/1.15 "Inter", system-ui, sans-serif;
+  color: #3c3c3c;
+  margin: 9% 0 7%;
+}
+.art-song__brand { width: clamp(58px, 7vw, 88px); height: auto; display: block; opacity: 0.85; }
+
+/* ============================================================
+   HANDWRITTEN NOTES + ARROWS
+   ============================================================ */
+:root {
+  --hand-red: #ff4d4d;
+}
+
+.note {
+  position: absolute;
+  z-index: 25;
+  color: var(--hand-red);
+  font-family: "Caveat", "Gochi Hand", cursive;
+  pointer-events: auto;
+}
+.note__text {
+  display: inline-block;
+  font-size: clamp(1.2rem, 1.8vw, 1.85rem);
+  font-weight: 600;
+  line-height: 1.05;
+  color: #ff4d4d;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+}
+.note .arrow {
+  position: absolute;
+  width: clamp(42px, 4.5vw, 64px);
+  overflow: visible;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
+}
+.note .arrow path {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* label placements — zero overlap on images or nav elements */
+.note--love     { top: 15%; left: 5%;  text-align: right; max-width: 140px; }   /* -> diet coke */
+.note--love .arrow      { right: -38px; bottom: -18px; }
+
+.note--timeless { top: 10%; left: 66%; text-align: right; max-width: 140px; }   /* "What I usually do" -> phone */
+.note--timeless .arrow  { right: -38px; top: -12px; }
+
+.note--artist   { top: 52%; left: 71%; text-align: left; max-width: 180px; }    /* "Something said by..." -> song card */
+.note--artist .arrow    { left: -36px;  top: -20px; }
+
+.note--passion  { top: 22%; left: 1%;  text-align: left; max-width: 130px; }    /* "I am Passionate about" -> guitar */
+.note--passion .arrow   { right: -26px; bottom: -26px; transform: rotate(-15deg); }
+
+.note--makes    { top: 72%; left: 78%; text-align: left; max-width: 150px; }    /* "I lowkey need the most" -> headphones */
+.note--makes .arrow     { left: -36px; bottom: 8px; transform: scaleX(-1); }
+
+/* ============================================================
+   PROJECTS SECTION (FIGMA INSPECT SPECS - CONTINUOUS SCROLL)
+   ============================================================ */
+.projects-section {
+  position: relative;
+  z-index: 10;
+  background: #000000;
+  width: 100%;
+  padding: clamp(3rem, 6vh, 6rem) clamp(1.5rem, 4vw, 4rem);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto;
+}
+
+.projects__title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: clamp(2.5rem, 5vh, 4rem);
+  width: 100%;
+}
+
+.projects__title-img {
+  width: min(85vw, 421px);
+  height: auto;
+  display: block;
+}
+
+.projects__grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Exact Figma Card Inspect Specs: 413px x 498px, radius: 24px, bg: #FFF */
+.project-card {
+  width: 413px;
+  max-width: 100%;
+  height: 498px;
+  border-radius: 24px;
+  background: #ffffff;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "SF Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.project-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6);
+}
+
+.project-card__bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.project-card__dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot--red { background: #fd5d5c; }
+.dot--yellow { background: #faca04; }
+.dot--green { background: #34c75a; }
+
+.project-card__image-wrap {
+  width: 100%;
+  aspect-ratio: 365 / 341;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.project-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.project-card:hover .project-card__img {
+  transform: scale(1.04);
+}
+
+.project-card__info {
+  padding: 4px 6px 6px;
+}
+
+.project-card__title {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "SF Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: clamp(1rem, 1.25vw, 1.25rem);
+  font-weight: 500;
+  color: #000000;
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* ============================================================
+   FALLBACK  —  small / short screens: no tear, plain scroll.
+   Newspaper stacks first, collage below it. JS also skips the
+   tear at this size (matchMedia in main.js must match this query).
+   ============================================================ */
+@media (max-width: 820px), (max-height: 540px) {
+  .layer {
+    position: relative;
+    inset: auto;
+    height: auto;
+    overflow: visible;
+  }
+  .layer--paper { pointer-events: auto; }
+  .scroll-track { display: none; }
+
+  /* newspaper as a normal block */
+  .paper { position: relative; inset: auto; min-height: 100svh; }
+  .sheet { height: auto; min-height: 100svh; }
+  .columns {
+    grid-template-columns: 1fr;
+    grid-auto-rows: min-content;
+    gap: 1.6rem;
+    overflow: visible;
+  }
+  .col { overflow: visible; }
+  .col--portrait,
+  .col--index { border-left: none; padding-left: 0; }
+  .portrait { aspect-ratio: 4 / 5; flex: none; }
+  .masthead { grid-template-columns: 1fr; text-align: center; gap: 0.3rem; justify-items: center; }
+  .masthead__side--right { text-align: center; }
+  .masthead__name { text-indent: 0; }
+
+  /* collage as a stacked column below */
+  .cnav { position: static; }
+  .collage {
+    position: static;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(2.5rem, 9vw, 4.5rem);
+    padding: 2rem 1rem 4rem;
+  }
+  .sticker,
+  .note {
+    position: relative;
+    inset: auto;
+    top: auto; left: auto; right: auto;
+    width: min(78vw, 360px);
+    transform: rotate(var(--rot, 0deg));
+  }
+  .sticker--frame { width: min(86vw, 440px); }
+  .note { text-align: center; }
+  .note .arrow { display: none; }
+
+  /* projects section stacked layout */
+  .collage-scroll-wrapper,
+  .collage-hero-section {
+    position: relative;
+    inset: auto;
+    height: auto;
+    pointer-events: auto;
+  }
+  .projects-section {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    min-height: auto;
+    padding: 3rem 1.25rem 5rem;
+  }
+  .projects__grid {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .unwrap__arrow { animation: none; }
+}
+
+/* ============================================================
+   PORTFOLIO SECTIONS (Experience, Skills, Leadership, Education, Contact)
+   ============================================================ */
+.portfolio-section {
+  position: relative;
+  z-index: 10;
+  background: #000000;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: clamp(3rem, 6vh, 5.5rem) clamp(1.5rem, 4vw, 3.5rem);
+  box-sizing: border-box;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
+  pointer-events: auto;
+}
+
+.section-header {
+  margin-bottom: clamp(2rem, 4vh, 3rem);
+  text-align: left;
+}
+
+.section-subtitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--hand-red);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.section-title {
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Experience & Leadership Cards */
+.experience-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.exp-card {
+  background: #111116;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.exp-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 77, 77, 0.4);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+}
+
+.exp-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.exp-card__role {
+  font-size: clamp(1.2rem, 2vw, 1.45rem);
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.25rem 0;
+}
+
+.exp-card__company {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #a1a1aa;
+}
+
+.exp-card__date {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #ff4d4d;
+  background: rgba(255, 77, 77, 0.1);
+  padding: 4px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 77, 77, 0.25);
+  white-space: nowrap;
+}
+
+.exp-card__bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.exp-card__bullets li {
+  font-size: 0.975rem;
+  line-height: 1.6;
+  color: #d4d4d8;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.exp-card__bullets li::before {
+  content: "▹";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #ff4d4d;
+  font-weight: 700;
+}
+
+/* Skills Grid */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.75rem;
+}
+
+.skills-card {
+  background: #111116;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 2rem;
+}
+
+.skills-card__heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.skill-pill {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #e4e4e7;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 14px;
+  border-radius: 999px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.skill-pill:hover {
+  background: rgba(255, 77, 77, 0.15);
+  border-color: rgba(255, 77, 77, 0.4);
+  color: #ffffff;
+}
+
+.skill-pill--accent {
+  background: rgba(43, 83, 230, 0.12);
+  border-color: rgba(43, 83, 230, 0.3);
+  color: #93c5fd;
+}
+
+.skill-pill--accent:hover {
+  background: rgba(43, 83, 230, 0.25);
+  border-color: rgba(43, 83, 230, 0.5);
+  color: #ffffff;
+}
+
+/* Education Grid */
+.education-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.edu-card {
+  background: #111116;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.edu-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.edu-card__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.edu-card__year {
+  font-size: 0.85rem;
+  color: #a1a1aa;
+  font-weight: 500;
+}
+
+.edu-card__badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #34c75a;
+  background: rgba(52, 199, 90, 0.12);
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(52, 199, 90, 0.25);
+}
+
+.edu-card__institution {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.35rem 0;
+}
+
+.edu-card__degree {
+  font-size: 0.9rem;
+  color: #a1a1aa;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Contact Box */
+.contact-section {
+  padding-bottom: clamp(4rem, 8vh, 7rem);
+}
+
+.contact-box {
+  background: linear-gradient(135deg, #111116 0%, #1a1a24 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  padding: clamp(2rem, 5vw, 3.5rem);
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+.contact-box__title {
+  font-size: clamp(2.2rem, 4vw, 3.25rem);
+  font-weight: 800;
+  margin: 0.25rem 0 1rem;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.contact-box__desc {
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  color: #a1a1aa;
+  max-width: 58ch;
+  margin: 0 auto 2.5rem;
+  line-height: 1.6;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.contact-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.contact-item:hover {
+  background: rgba(255, 77, 77, 0.1);
+  border-color: rgba(255, 77, 77, 0.4);
+  transform: translateY(-3px);
+}
+
+.contact-item__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a1a1aa;
+  margin-bottom: 0.35rem;
+}
+
+.contact-item__value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  word-break: break-all;
+}
+
+.contact-location {
+  font-size: 0.9rem;
+  color: #71717a;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.5rem;
+}
+

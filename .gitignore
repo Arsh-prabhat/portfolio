@@ -1,0 +1,5 @@
+.claude/mcp.json
+.claude/
+.mcp.json
+node_modules/
+.DS_Store

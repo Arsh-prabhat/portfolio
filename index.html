@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arsh Prabhat — UI/UX Designer</title>
+  <meta name="description" content="Portfolio of Arsh Prabhat, UI/UX Designer." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Gochi+Hand&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20" />
+
+  <!-- GSAP + ScrollTrigger Libraries -->
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+  <!-- ============================ SCENE ============================ -->
+  <!-- .layer--paper (front) tears open on scroll to reveal .layer--collage (behind) -->
+  <div class="layer layer--paper" id="top">
+
+    <!-- the newspaper front page — everything fits in one viewport -->
+    <div class="paper" id="paper">
+      <div class="sheet">
+
+        <!-- ZONE 1 — MASTHEAD -->
+        <div class="masthead">
+          <p class="masthead__side masthead__side--left">ASSOCIATE UI/UX DESIGNER &nbsp;/&nbsp; HOOCAI TECH</p>
+          <p class="masthead__name">ARSH PRABHAT</p>
+          <p class="masthead__side masthead__side--right">GHAZIABAD, UP &bull; INDIA</p>
+        </div>
+
+        <!-- ZONE 2 — HEADLINE -->
+        <h1 class="headline">
+          <span class="headline__line">DESIGNING</span>
+          <span class="headline__line">WHAT&rsquo;S NEXT<span class="headline__dot">.</span></span>
+        </h1>
+
+        <!-- ZONE 3 — DECK -->
+        <p class="deck">
+          Associate UI/UX Designer crafting human-centered digital experiences across healthcare, matrimonial, logistics, e-commerce, and edtech domains.
+        </p>
+
+        <!-- ZONE 4 — THREE COLUMNS -->
+        <div class="columns">
+
+          <!-- LEFT: bio -->
+          <section class="col col--bio">
+            <p class="kicker">The Designer&rsquo;s Note</p>
+            <div class="bio">
+              <p class="bio__lead">
+                <span class="dropcap">A</span>rsh Prabhat is an Associate UI/UX Designer at HoocAI Technologies and CS &amp; IT undergrad at KIET Group of Institutions (CGPA 8.04). With experience across 8+ client products in healthcare, e-commerce, wellness, service, and logistics domains.
+              </p>
+              <p>
+                Specializing in user research, progressive onboarding, wireframing, high-fidelity UI prototyping, and design systems for complex real-world platforms like Weddingzon and Tympe.
+              </p>
+              <p class="bio__closing">
+                General Secretary &amp; UI/UX Lead at Kinesis Technical Society and Creative Head for Dataverse National Hackathon. Driven by turning complex problems into clean, intuitive interfaces.
+              </p>
+            </div>
+          </section>
+
+          <!-- CENTER: portrait -->
+          <figure class="col col--portrait">
+            <div class="portrait" role="img" aria-label="Portrait of Arsh Prabhat">
+              <img class="portrait__img" src="assets/hero-portrait.jpg" alt="Arsh Prabhat" />
+              <span class="portrait__grain" aria-hidden="true"></span>
+            </div>
+            <button class="unwrap" type="button" data-scroll-to="#next">
+              <span>SCROLL TO UNWRAP</span>
+              <span class="unwrap__arrow" aria-hidden="true">&darr;</span>
+            </button>
+            <figcaption class="caption">
+              <em>Fig. 001 &mdash; Arsh Prabhat, UI/UX Designer.</em>
+            </figcaption>
+          </figure>
+
+          <!-- RIGHT: table of contents -->
+          <nav class="col col--index" aria-label="Portfolio contents">
+            <p class="kicker">Inside This Portfolio</p>
+            <ul class="toc">
+              <li class="toc__item">
+                <a href="#projects">
+                  <span class="toc__row"><span class="toc__title">Product Case Studies</span><span class="toc__page">P. 01</span></span>
+                  <span class="toc__desc"><em>Weddingzon, Tympe &amp; Adaptive Reading UX platforms.</em></span>
+                </a>
+              </li>
+              <li class="toc__item">
+                <a href="#resume">
+                  <span class="toc__row"><span class="toc__title">Work Experience</span><span class="toc__page">P. 02</span></span>
+                  <span class="toc__desc"><em>HoocAI Tech &amp; Mockmate Internship roles.</em></span>
+                </a>
+              </li>
+              <li class="toc__item">
+                <a href="#skills">
+                  <span class="toc__row"><span class="toc__title">Skills &amp; Design Tools</span><span class="toc__page">P. 03</span></span>
+                  <span class="toc__desc"><em>User Research, Figma, Wireframing &amp; Systems.</em></span>
+                </a>
+              </li>
+              <li class="toc__item">
+                <a href="#leadership">
+                  <span class="toc__row"><span class="toc__title">Design Leadership</span><span class="toc__page">P. 04</span></span>
+                  <span class="toc__desc"><em>Kinesis Lead &amp; Dataverse Hackathon Head.</em></span>
+                </a>
+              </li>
+              <li class="toc__item">
+                <a href="#education">
+                  <span class="toc__row"><span class="toc__title">Education &amp; Credentials</span><span class="toc__page">P. 05</span></span>
+                  <span class="toc__desc"><em>B.Tech CS &amp; IT (KIET) &amp; Schooling background.</em></span>
+                </a>
+              </li>
+              <li class="toc__item">
+                <a href="#contact">
+                  <span class="toc__row"><span class="toc__title">Contact &amp; Connect</span><span class="toc__page">P. 06</span></span>
+                  <span class="toc__desc"><em>Email, LinkedIn, GitHub &amp; Phone contacts.</em></span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+        </div><!-- /.columns -->
+      </div><!-- /.sheet -->
+    </div><!-- /.paper -->
+  </div><!-- /.layer--paper -->
+
+  <!-- ============================ REVEAL LAYER (Hero Collage + Projects) ============================ -->
+  <div class="layer--collage reveal" id="next" aria-label="Arsh Prabhat — portfolio">
+    <div class="collage-scroll-wrapper">
+
+      <!-- HERO COLLAGE SECTION -->
+      <div class="collage-hero-section">
+        <nav class="cnav">
+          <a class="cnav__link" href="#projects">Projects</a>
+          <a class="cnav__link" href="#resume">Experience</a>
+          <span class="cnav__name edit" contenteditable="true" spellcheck="false" data-key="navName">Arsh&nbsp;Prabhat</span>
+          <a class="cnav__link" href="#skills">Skills</a>
+          <a class="cnav__link" href="#leadership">Leadership</a>
+          <a class="cnav__link" href="#education">Education</a>
+          <a class="cnav__link" href="#contact">Contact</a>
+        </nav>
+
+        <div class="collage">
+
+          <!-- portrait — cracks open on scroll, the collage bursts out of it -->
+          <figure class="sticker sticker--frame" data-rot="0" style="--rot:0deg">
+            <div class="sticker__art art-frame">
+              <div class="art-frame__photo">
+                <img class="art-frame__img" src="assets/collage-portrait.png" alt="Arsh Prabhat" />
+              </div>
+              <svg class="crack" viewBox="0 0 250 300" preserveAspectRatio="none" aria-hidden="true">
+                <path class="crack__line" pathLength="1" d="M125 110 L104 78 L88 40 L78 6" />
+                <path class="crack__line" pathLength="1" d="M125 110 L150 66 L146 24 L156 -6" />
+                <path class="crack__line" pathLength="1" d="M125 110 L178 92 L214 74 L252 64" />
+                <path class="crack__line" pathLength="1" d="M125 110 L176 150 L214 176 L252 212" />
+                <path class="crack__line" pathLength="1" d="M125 110 L142 202 L134 252 L150 306" />
+                <path class="crack__line" pathLength="1" d="M125 110 L96 190 L74 248 L58 306" />
+                <path class="crack__line" pathLength="1" d="M125 110 L74 132 L36 128 L-4 142" />
+                <path class="crack__line" pathLength="1" d="M104 78 L80 86" />
+                <path class="crack__line" pathLength="1" d="M150 66 L172 50" />
+                <path class="crack__line" pathLength="1" d="M176 150 L198 136" />
+                <path class="crack__line" pathLength="1" d="M96 190 L78 176" />
+                <path class="crack__line" pathLength="1" d="M142 202 L162 216" />
+              </svg>
+              <span class="crack__flash" aria-hidden="true"></span>
+              <span class="art-frame__title edit" contenteditable="true" spellcheck="false" data-key="title2">Arsh&rsquo;s Portfolio</span>
+            </div>
+          </figure>
+
+          <!-- Diet Coke cans -->
+          <figure class="sticker sticker--plate" data-rot="6" style="--rot:6deg">
+            <div class="sticker__art art-coke">
+              <img class="art-coke__b" src="assets/collage-coke.png" alt="" />
+              <img class="art-coke__a" src="assets/collage-coke.png" alt="Diet Coke" />
+            </div>
+            <svg class="doodle doodle--plate" viewBox="0 0 320 200" aria-hidden="true">
+              <g class="doodle__rays">
+                <path pathLength="1" d="M60 40 L44 12" />
+                <path pathLength="1" d="M104 26 L100 -4" />
+                <path pathLength="1" d="M150 24 L156 -6" />
+                <path pathLength="1" d="M196 30 L212 2" />
+                <path pathLength="1" d="M232 46 L258 24" />
+              </g>
+              <path pathLength="1" class="doodle__squiggle" d="M56 150c18-14 34 12 52-2s34 12 52-2 34 12 52-2" />
+              <circle pathLength="1" class="doodle__ring" cx="160" cy="100" r="120" />
+            </svg>
+          </figure>
+
+          <!-- phone mockup -->
+          <figure class="sticker sticker--stamp" data-rot="-18" style="--rot:-18deg">
+            <div class="sticker__art art-phone"><img src="assets/collage-phone.png" alt="App mockup" /></div>
+            <svg class="doodle doodle--stamp" viewBox="0 0 200 200" aria-hidden="true">
+              <path pathLength="1" d="M20 40c-10 14-8 30 4 44" />
+              <path pathLength="1" d="M40 18c14-8 30-6 42 6" />
+              <path pathLength="1" class="doodle__star" d="M150 150l6 14 15 2-11 11 3 15-13-8-13 8 3-15-11-11 15-2z" />
+            </svg>
+          </figure>
+
+          <!-- Spotify song card — Seedhe Maut -->
+          <figure class="sticker sticker--song" data-rot="8" style="--rot:8deg">
+            <div class="sticker__art art-song">
+              <div class="art-song__head">
+                <span class="art-song__cover"><img src="assets/collage-album.png" alt="" /></span>
+                <span class="art-song__meta"><b class="edit" contenteditable="true" spellcheck="false" data-key="songTitle2">RED</b><i class="edit" contenteditable="true" spellcheck="false" data-key="songArtist2">Seedhe Maut</i></span>
+              </div>
+              <p class="art-song__lyric edit" contenteditable="true" spellcheck="false" data-key="songLyric2">Hum dono agar kar sakte hai toh tu bhi kar sakta hai</p>
+              <img class="art-song__brand" src="assets/collage-spotify.svg" alt="Spotify" />
+            </div>
+            <svg class="doodle doodle--song" viewBox="0 0 220 220" aria-hidden="true">
+              <path pathLength="1" d="M20 120c-8 16-4 34 10 46" />
+              <path pathLength="1" d="M40 150c14 10 32 10 46 0" />
+              <path pathLength="1" class="doodle__note" d="M180 40v56" />
+              <circle pathLength="1" class="doodle__note" cx="172" cy="98" r="9" />
+            </svg>
+          </figure>
+
+          <!-- headphones -->
+          <figure class="sticker sticker--tv" data-rot="-4" style="--rot:-4deg">
+            <div class="sticker__art art-photo"><img src="assets/collage-headphones.png" alt="Headphones" /></div>
+            <svg class="doodle doodle--tv" viewBox="0 0 220 200" aria-hidden="true">
+              <path pathLength="1" d="M24 60c-12 10-14 26-6 40" />
+              <path pathLength="1" d="M40 40c12-10 28-10 40 0" />
+              <path pathLength="1" class="doodle__zap" d="M170 30l-14 40h18l-16 44" />
+            </svg>
+          </figure>
+
+          <!-- acoustic guitar -->
+          <figure class="sticker sticker--cam" data-rot="20" style="--rot:20deg">
+            <div class="sticker__art art-photo"><img src="assets/collage-guitar.png" alt="Acoustic guitar" /></div>
+            <svg class="doodle doodle--cam" viewBox="0 0 220 180" aria-hidden="true">
+              <path pathLength="1" d="M30 40c-10 12-10 28 0 40" />
+              <path pathLength="1" d="M50 24c14-8 30-6 40 6" />
+              <path pathLength="1" class="doodle__flash" d="M150 20l40 18-40 18" />
+              <path pathLength="1" class="doodle__flash" d="M158 60l34 -6" />
+            </svg>
+          </figure>
+
+          <!-- ---------- HANDWRITTEN LABELS + ARROWS ---------- -->
+          <div class="note note--love">
+            <span class="note__text edit" contenteditable="true" spellcheck="false" data-key="nLove">Something I love</span>
+            <svg class="arrow" viewBox="0 0 80 50" aria-hidden="true">
+              <path pathLength="1" d="M4 8c22 6 40 20 52 36" />
+              <path pathLength="1" d="M40 42l16 4 2-16" />
+            </svg>
+          </div>
+
+          <div class="note note--timeless">
+            <span class="note__text edit" contenteditable="true" spellcheck="false" data-key="nUsually">What I usually do</span>
+            <svg class="arrow" viewBox="0 0 80 50" aria-hidden="true">
+              <path pathLength="1" d="M76 10C54 4 34 14 18 34" />
+              <path pathLength="1" d="M32 36l-14 2 0-16" />
+            </svg>
+          </div>
+
+          <div class="note note--artist">
+            <span class="note__text edit" contenteditable="true" spellcheck="false" data-key="nArtist2">Something said by my favourite artist</span>
+            <svg class="arrow" viewBox="0 0 80 50" aria-hidden="true">
+              <path pathLength="1" d="M76 12C52 8 28 18 12 38" />
+              <path pathLength="1" d="M26 38l-14 2 1-16" />
+            </svg>
+          </div>
+
+          <div class="note note--passion">
+            <span class="note__text edit" contenteditable="true" spellcheck="false" data-key="nPassion2">I am Passionate about</span>
+            <svg class="arrow" viewBox="0 0 80 50" aria-hidden="true">
+              <path pathLength="1" d="M8 8c20 4 38 16 52 34" />
+              <path pathLength="1" d="M44 40l16 4 1-16" />
+            </svg>
+          </div>
+
+          <div class="note note--makes">
+            <span class="note__text edit" contenteditable="true" spellcheck="false" data-key="nNeed">I lowkey need the most</span>
+            <svg class="arrow" viewBox="0 0 80 50" aria-hidden="true">
+              <path pathLength="1" d="M74 8C56 6 36 16 22 36" />
+              <path pathLength="1" d="M34 38l-12 2 0-16" />
+            </svg>
+          </div>
+
+        </div><!-- /.collage -->
+      </div><!-- /.collage-hero-section -->
+
+      <!-- PROJECTS SECTION (Figma Specs: 413px x 498px, radius 24px, #FFF background) -->
+      <section id="projects" class="projects-section" aria-label="Projects">
+        <h2 class="projects__title" aria-label="projects">
+          <img src="assets/projects.svg" class="projects__title-img" alt="projects" />
+        </h2>
+
+        <div class="projects__grid">
+
+          <!-- Project Card 1: Weddingzon -->
+          <article class="project-card" data-project-id="1">
+            <div class="project-card__bar">
+              <div class="project-card__dots">
+                <span class="dot dot--red"></span>
+                <span class="dot dot--yellow"></span>
+                <span class="dot dot--green"></span>
+              </div>
+            </div>
+            <div class="project-card__image-wrap">
+              <img class="project-card__img" src="assets/project-card-1.png" alt="Weddingzon — Matrimonial Platform UX Redesign" />
+            </div>
+            <div class="project-card__info">
+              <h3 class="project-card__title edit" contenteditable="true" spellcheck="false" data-key="projCardTitle1">Weddingzon &mdash; Matrimonial Platform UX &amp; Onboarding Redesign</h3>
+            </div>
+          </article>
+
+          <!-- Project Card 2: Tympe -->
+          <article class="project-card" data-project-id="2">
+            <div class="project-card__bar">
+              <div class="project-card__dots">
+                <span class="dot dot--red"></span>
+                <span class="dot dot--yellow"></span>
+                <span class="dot dot--green"></span>
+              </div>
+            </div>
+            <div class="project-card__image-wrap">
+              <img class="project-card__img" src="assets/project-card-2.png" alt="Tympe — QR-Based Delivery Booking & Driver Logistics Flow" />
+            </div>
+            <div class="project-card__info">
+              <h3 class="project-card__title edit" contenteditable="true" spellcheck="false" data-key="projCardTitle2">Tympe &mdash; QR Delivery Booking &amp; Driver Logistics Workflows</h3>
+            </div>
+          </article>
+
+          <!-- Project Card 3: Adaptive Reading Platform -->
+          <article class="project-card" data-project-id="3">
+            <div class="project-card__bar">
+              <div class="project-card__dots">
+                <span class="dot dot--red"></span>
+                <span class="dot dot--yellow"></span>
+                <span class="dot dot--green"></span>
+              </div>
+            </div>
+            <div class="project-card__image-wrap">
+              <img class="project-card__img" src="assets/project-card-3.png" alt="Adaptive Reading Platform — Personalised Learning & Reading UX" />
+            </div>
+            <div class="project-card__info">
+              <h3 class="project-card__title edit" contenteditable="true" spellcheck="false" data-key="projCardTitle3">Adaptive Reading Platform &mdash; Personalised Learning &amp; Accessibility UX</h3>
+            </div>
+          </article>
+
+        </div><!-- /.projects__grid -->
+      </section><!-- /#projects -->
+
+      <!-- WORK EXPERIENCE SECTION -->
+      <section id="resume" class="portfolio-section" aria-label="Work Experience">
+        <div class="section-header">
+          <span class="section-subtitle">Career &amp; Work History</span>
+          <h2 class="section-title">Work Experience</h2>
+        </div>
+
+        <div class="experience-list">
+          <article class="exp-card">
+            <div class="exp-card__header">
+              <div class="exp-card__role-meta">
+                <h3 class="exp-card__role">Associate UI/UX Designer</h3>
+                <span class="exp-card__company">HoocAI Technologies</span>
+              </div>
+              <span class="exp-card__date">Jan 2026 &ndash; Present</span>
+            </div>
+            <ul class="exp-card__bullets">
+              <li>Designed user experiences for <strong>8+ client products</strong> across healthcare, e-commerce, wellness, service, and logistics domains.</li>
+              <li>Worked across requirement analysis, user flows, information architecture, wireframing, UI design, prototyping, design systems, and developer handoff.</li>
+              <li><strong>Weddingzon:</strong> Designed onboarding, progressive profile creation, verification, compatibility-based discovery, and permission-based communication experiences for a matrimonial platform.</li>
+              <li><strong>Tympe:</strong> Designed a QR-based delivery booking flow that auto-populates user details, allowing customers to select a vehicle and book deliveries with minimal manual entry.</li>
+              <li>Designed driver workflows including floor-charge handling when lift access is unavailable and in-app document storage for quick access during verification checks.</li>
+            </ul>
+          </article>
+
+          <article class="exp-card">
+            <div class="exp-card__header">
+              <div class="exp-card__role-meta">
+                <h3 class="exp-card__role">UI/UX Design Intern</h3>
+                <span class="exp-card__company">Mockmate</span>
+              </div>
+              <span class="exp-card__date">Aug 2025 &ndash; Oct 2025</span>
+            </div>
+            <ul class="exp-card__bullets">
+              <li>Designed user experiences for a peer-learning platform connecting students with interview partners, study mates, and skill-based collaborators.</li>
+              <li>Created wireframes, prototypes, and high-fidelity designs while collaborating with developers to improve usability and engagement.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- SKILLS & TOOLS SECTION -->
+      <section id="skills" class="portfolio-section" aria-label="Skills and Tools">
+        <div class="section-header">
+          <span class="section-subtitle">Capabilities &amp; Software</span>
+          <h2 class="section-title">Skills &amp; Tools</h2>
+        </div>
+
+        <div class="skills-grid">
+          <div class="skills-card">
+            <h3 class="skills-card__heading">UX / UI Expertise</h3>
+            <div class="tags-container">
+              <span class="skill-pill">User Research</span>
+              <span class="skill-pill">User Flows</span>
+              <span class="skill-pill">Information Architecture</span>
+              <span class="skill-pill">Wireframing</span>
+              <span class="skill-pill">Prototyping</span>
+              <span class="skill-pill">Usability Testing</span>
+              <span class="skill-pill">Design Systems</span>
+              <span class="skill-pill">High-Fidelity UI</span>
+              <span class="skill-pill">Interaction Design</span>
+              <span class="skill-pill">Developer Handoff</span>
+            </div>
+          </div>
+
+          <div class="skills-card">
+            <h3 class="skills-card__heading">Design &amp; Dev Tools</h3>
+            <div class="tags-container">
+              <span class="skill-pill skill-pill--accent">Figma</span>
+              <span class="skill-pill skill-pill--accent">Framer</span>
+              <span class="skill-pill skill-pill--accent">Adobe XD</span>
+              <span class="skill-pill skill-pill--accent">Canva</span>
+              <span class="skill-pill skill-pill--accent">Notion</span>
+              <span class="skill-pill skill-pill--accent">GitHub</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LEADERSHIP SECTION -->
+      <section id="leadership" class="portfolio-section" aria-label="Design Leadership">
+        <div class="section-header">
+          <span class="section-subtitle">Community &amp; Organization</span>
+          <h2 class="section-title">Leadership &amp; Initiatives</h2>
+        </div>
+
+        <div class="experience-list">
+          <article class="exp-card">
+            <div class="exp-card__header">
+              <div class="exp-card__role-meta">
+                <h3 class="exp-card__role">General Secretary &amp; UI/UX Lead</h3>
+                <span class="exp-card__company">Kinesis Technical Society</span>
+              </div>
+              <span class="exp-card__date">2025 &ndash; Present</span>
+            </div>
+            <ul class="exp-card__bullets">
+              <li>Lead UI/UX initiatives and coordinate design activities while collaborating with cross-functional student teams and organizing technical events.</li>
+            </ul>
+          </article>
+
+          <article class="exp-card">
+            <div class="exp-card__header">
+              <div class="exp-card__role-meta">
+                <h3 class="exp-card__role">Creative Head</h3>
+                <span class="exp-card__company">Dataverse &ndash; National-Level Hackathon</span>
+              </div>
+              <span class="exp-card__date">Nov 2026</span>
+            </div>
+            <ul class="exp-card__bullets">
+              <li>Led creative and design initiatives for a national-level hackathon, contributing to the event&rsquo;s visual identity, promotional content, and overall creative direction.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- EDUCATION SECTION -->
+      <section id="education" class="portfolio-section" aria-label="Education">
+        <div class="section-header">
+          <span class="section-subtitle">Academic Background</span>
+          <h2 class="section-title">Education</h2>
+        </div>
+
+        <div class="education-grid">
+          <div class="edu-card">
+            <div class="edu-card__meta">
+              <span class="edu-card__year">2023 &ndash; 2027</span>
+              <span class="edu-card__badge">CGPA: 8.04</span>
+            </div>
+            <h3 class="edu-card__institution">KIET Group of Institutions</h3>
+            <p class="edu-card__degree">B.Tech, Computer Science and Information Technology</p>
+          </div>
+
+          <div class="edu-card">
+            <div class="edu-card__meta">
+              <span class="edu-card__year">2023</span>
+              <span class="edu-card__badge">89.6%</span>
+            </div>
+            <h3 class="edu-card__institution">K.L. International School</h3>
+            <p class="edu-card__degree">Class XII (PCM)</p>
+          </div>
+
+          <div class="edu-card">
+            <div class="edu-card__meta">
+              <span class="edu-card__year">2021</span>
+              <span class="edu-card__badge">93.5%</span>
+            </div>
+            <h3 class="edu-card__institution">K.L. International School</h3>
+            <p class="edu-card__degree">Class X</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT SECTION -->
+      <section id="contact" class="portfolio-section contact-section" aria-label="Contact Arsh Prabhat">
+        <div class="contact-box">
+          <span class="section-subtitle">Let&rsquo;s Connect</span>
+          <h2 class="contact-box__title">Get In Touch</h2>
+          <p class="contact-box__desc">
+            Open to UI/UX design opportunities, product strategy, and creative collaborations. Feel free to reach out directly via email or connect on social platforms!
+          </p>
+
+          <div class="contact-grid">
+            <a href="mailto:prabhatarsh1974@gmail.com" class="contact-item">
+              <span class="contact-item__label">Email</span>
+              <span class="contact-item__value">prabhatarsh1974@gmail.com</span>
+            </a>
+            <a href="tel:+918791364253" class="contact-item">
+              <span class="contact-item__label">Phone</span>
+              <span class="contact-item__value">+91 8791364253</span>
+            </a>
+            <a href="https://linkedin.com/in/arsh-prabhat" target="_blank" rel="noopener noreferrer" class="contact-item">
+              <span class="contact-item__label">LinkedIn</span>
+              <span class="contact-item__value">linkedin.com/in/arsh-prabhat</span>
+            </a>
+            <a href="https://github.com/Arsh-prabhat" target="_blank" rel="noopener noreferrer" class="contact-item">
+              <span class="contact-item__label">GitHub</span>
+              <span class="contact-item__value">github.com/Arsh-prabhat</span>
+            </a>
+          </div>
+
+          <div class="contact-location">
+            <span>Location: Ghaziabad, Uttar Pradesh, India</span>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /.collage-scroll-wrapper -->
+  </div><!-- /.layer--collage -->
+
+  <!-- ============================ APPLE-STYLE CASE STUDY OVERLAY ============================ -->
+  <div class="cs-overlay" id="csOverlay" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="cs-modal" id="csModal">
+      
+      <!-- macOS Window Control Bar -->
+      <div class="cs-modal__bar">
+        <div class="cs-modal__dots">
+          <button class="cs-dot cs-dot--red" id="csCloseBtn" aria-label="Close Case Study"></button>
+          <span class="cs-dot cs-dot--yellow"></span>
+          <span class="cs-dot cs-dot--green"></span>
+        </div>
+        <span class="cs-modal__bar-title" id="csBarTitle">Case Study</span>
+      </div>
+
+      <!-- Scrollable Case Study Body -->
+      <div class="cs-modal__body">
+        
+        <!-- Header Info -->
+        <header class="cs-header">
+          <div class="cs-header__tags">
+            <span class="cs-tag cs-tag--accent" id="csTag1">UI/UX Design</span>
+            <span class="cs-tag" id="csTag2">Mobile Application</span>
+            <span class="cs-tag" id="csTag3">0 &rarr; 1 Product</span>
+          </div>
+          <h1 class="cs-header__title edit" contenteditable="true" spellcheck="false" id="csTitle" data-key="csTitle">
+            Improving onboarding experience of a Matrimonial Application
+          </h1>
+          <p class="cs-header__sub edit" contenteditable="true" spellcheck="false" id="csSubtitle" data-key="csSub">
+            A comprehensive UX redesign focused on user trust, progressive profile building, and friction-free onboarding.
+          </p>
+        </header>
+
+        <!-- Hero Media Frame -->
+        <figure class="cs-hero-frame">
+          <img class="cs-hero-frame__img" id="csHeroImg" src="assets/project-card-1.png" alt="Case Study Preview" />
+        </figure>
+
+        <!-- Key Metrics Grid -->
+        <div class="cs-metrics">
+          <div class="cs-metric">
+            <span class="cs-metric__value edit" contenteditable="true" spellcheck="false" id="csMetricVal1" data-key="csMetricVal1">+45%</span>
+            <span class="cs-metric__label edit" contenteditable="true" spellcheck="false" id="csMetricLbl1" data-key="csMetricLbl1">Onboarding Completion</span>
+          </div>
+          <div class="cs-metric">
+            <span class="cs-metric__value edit" contenteditable="true" spellcheck="false" id="csMetricVal2" data-key="csMetricVal2">2.4M</span>
+            <span class="cs-metric__label edit" contenteditable="true" spellcheck="false" id="csMetricLbl2" data-key="csMetricLbl2">Active Profiles</span>
+          </div>
+          <div class="cs-metric">
+            <span class="cs-metric__value edit" contenteditable="true" spellcheck="false" id="csMetricVal3" data-key="csMetricVal3">4.9 &starf;</span>
+            <span class="cs-metric__label edit" contenteditable="true" spellcheck="false" id="csMetricLbl3" data-key="csMetricLbl3">User Satisfaction</span>
+          </div>
+        </div>
+
+        <!-- Section 1: Overview & Problem Statement -->
+        <section class="cs-section">
+          <h2 class="cs-section__heading edit" contenteditable="true" spellcheck="false" data-key="csSec1Head">01. Overview &amp; Problem Statement</h2>
+          <p class="cs-text cs-text--lead edit" contenteditable="true" spellcheck="false" id="csLead" data-key="csSec1Lead">
+            User onboarding is the single most critical funnel in matchmaking apps. High drop-off rates during initial profile setup indicated that users felt overwhelmed by long form fields, lack of privacy controls, and unclear value propositions.
+          </p>
+          <p class="cs-text edit" contenteditable="true" spellcheck="false" id="csBody" data-key="csSec1Body">
+            Our goal was to transform a rigid multi-step form into a conversational, trust-building experience. By deferring non-essential questions and introducing visual progress cues, we enabled users to reach their first match in under 90 seconds.
+          </p>
+        </section>
+
+        <!-- Section 2: Wireframes & Research Gallery -->
+        <section class="cs-section">
+          <h2 class="cs-section__heading edit" contenteditable="true" spellcheck="false" data-key="csSec2Head">02. Design Exploration &amp; Wireframes</h2>
+          <p class="cs-text edit" contenteditable="true" spellcheck="false" data-key="csSec2Body">
+            We conducted 18 user interviews and audited competing platforms. The research highlighted three key friction points: privacy concerns regarding photos, redundant verification steps, and cognitive overload.
+          </p>
+          <div class="cs-gallery">
+            <div class="cs-gallery__item">
+              <div class="cs-placeholder-img">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <span>Wireframe &amp; User Flow Slot 01</span>
+              </div>
+              <figcaption class="cs-gallery__caption edit" contenteditable="true" spellcheck="false" data-key="csCap1">Initial onboarding flow exploration &amp; dropoff analysis</figcaption>
+            </div>
+            <div class="cs-gallery__item">
+              <div class="cs-placeholder-img">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <span>UI Mockup &amp; Screen Slot 02</span>
+              </div>
+              <figcaption class="cs-gallery__caption edit" contenteditable="true" spellcheck="false" data-key="csCap2">Conversational step-by-step profile builder</figcaption>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 3: Interface & Design System Showcase -->
+        <section class="cs-section">
+          <h2 class="cs-section__heading edit" contenteditable="true" spellcheck="false" data-key="csSec3Head">03. Final Interface Showcase</h2>
+          <p class="cs-text edit" contenteditable="true" spellcheck="false" data-key="csSec3Body">
+            The final design features custom micro-interactions, dark-mode support, clear typography hierarchy, and accessible contrast ratios. Highlighting trust badges and photo verification boosted profile credibility significantly.
+          </p>
+          <figure class="cs-showcase-frame">
+            <img class="cs-showcase-frame__img" id="csShowcaseImg" src="assets/project-card-1.png" alt="Final Screen Showcase" />
+          </figure>
+        </section>
+
+        <!-- Section 4: Key Takeaways -->
+        <section class="cs-section cs-section--takeaways">
+          <h2 class="cs-section__heading edit" contenteditable="true" spellcheck="false" data-key="csSec4Head">04. Key Takeaways &amp; Impact</h2>
+          <ul class="cs-bullets">
+            <li class="edit" contenteditable="true" spellcheck="false" data-key="csBullet1"><strong>Progressive Disclosure:</strong> Asking for details gradually reduced signup churn by 45%.</li>
+            <li class="edit" contenteditable="true" spellcheck="false" data-key="csBullet2"><strong>Trust Micro-copy:</strong> Clear explanations of privacy settings increased photo upload compliance by 62%.</li>
+            <li class="edit" contenteditable="true" spellcheck="false" data-key="csBullet3"><strong>Design System Efficiency:</strong> Modular UI components cut engineering handoff time in half.</li>
+          </ul>
+        </section>
+
+      </div><!-- /.cs-modal__body -->
+    </div><!-- /.cs-modal -->
+  </div><!-- /.cs-overlay -->
+
+  <!-- invisible scroll distance that drives the scroll timeline -->
+  <div class="scroll-track" aria-hidden="true"></div>
+
+  <!-- GSAP + ScrollTrigger Fallbacks + Main JS -->
+  <script>window.gsap || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"><\/script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"><\/script>')</script>
+  <script src="main.js?v=20" defer></script>
+</body>
+
+</html>
