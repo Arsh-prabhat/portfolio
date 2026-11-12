@@ -1,0 +1,238 @@
+.about-body {
+  --about-grid-size: clamp(42px, 4vw, 76px);
+  min-height: 100svh;
+  overflow-x: hidden;
+  background-color: #fbfaf7;
+  background-image: linear-gradient(rgba(82,75,66,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(82,75,66,.14) 1px,transparent 1px);
+  background-size: var(--about-grid-size) var(--about-grid-size);
+  background-position: 0 0;
+  background-attachment: fixed;
+}
+.about-scene { position: relative; height: 180svh; background: transparent; }
+.collage {
+  position: sticky; top: 0; width: 100%; height: 100svh; min-height: 700px; max-height: 1100px;
+  overflow: visible; isolation: isolate; background: transparent;
+}
+.sticker { position: absolute; margin: 0; transform-origin: center center; transform: rotate(var(--rot,0deg)); }
+.sticker--frame { z-index: 3; left: 50%; top: 19%; width: min(34vw,660px); height: 70%; transform: translateX(-50%) rotate(var(--rot,0deg)); }
+.sticker__art { position: relative; width: 100%; height: 100%; transform-origin: center; transition: transform .32s cubic-bezier(.2,.75,.25,1), filter .32s ease; }
+.art-frame__photo { position: absolute; inset: 0; }
+.art-frame__img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 14px 17px #0005); }
+.art-frame__title { position: absolute; z-index: 3; top: 64%; left: -11%; color: #ed514e; font: 400 clamp(42px,4.4vw,82px)/1.05 'Bright Chalk','Comic Sans MS',cursive; white-space: nowrap; transform: rotate(-8deg); text-shadow: 0 2px 2px #fff9; pointer-events: none; }
+.sticker--plate { z-index: 4; left: 20%; top: 5%; width: min(19vw,370px); height: 39%; }
+.art-coke { position: relative; width: 100%; height: 100%; }
+.art-coke img { position: absolute; top: 0; width: 57%; height: 100%; object-fit: contain; filter: drop-shadow(0 12px 12px #0004); }
+.art-coke__b { left: 0; transform: rotate(-13deg); }
+.art-coke__a { left: 39%; top: 13% !important; transform: rotate(17deg); }
+.sticker--stamp { z-index: 6; top: 0; right: 4%; width: min(16vw,310px); height: 39%; }
+.art-phone img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 12px 12px #0005); }
+.sticker--song { z-index: 5; left: 51.5%; top: 12%; width: min(23vw,450px); height: min(34vh,320px); min-height: 250px; }
+.art-song { display: flex; flex-direction: column; width: 100%; height: 100%; padding: clamp(18px,1.4vw,28px); border-radius: 20px; background: #d0cece; box-shadow: 0 20px 28px #0003; color: #383638; }
+.art-song__head { display: flex; align-items: center; gap: 12px; }
+.art-song__cover { display: block; flex: 0 0 58px; width: 58px; height: 58px; overflow: hidden; border-radius: 10px; }
+.art-song__cover img { width: 100%; height: 100%; object-fit: cover; }
+.art-song__meta { display: grid; gap: 2px; font: 500 16px/1.15 Inter,Arial,sans-serif; }
+.art-song__meta b { font-size: 17px; }
+.art-song__meta i { font-style: normal; }
+.art-song__lyric { margin: auto 0; color: #373436; font: 800 clamp(15px,1.35vw,22px)/1.22 Inter,Arial,sans-serif; letter-spacing: -.02em; }
+.art-song__brand { width: 78px; height: auto; object-fit: contain; }
+.sticker--tv { z-index: 4; right: 16%; bottom: 0; width: min(22vw,430px); height: 49%; }
+.sticker--cam { z-index: 6; left: 2%; top: 19%; width: min(17vw,400px); height: 78%; }
+.art-photo img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 12px 13px #0004); }
+.doodle { position: absolute; z-index: 2; overflow: visible; fill: none; stroke: #181614; stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; opacity: 0; visibility: hidden; transition: opacity .22s ease, visibility 0s linear .22s; }
+.doodle path, .doodle circle { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.sticker.is-callout-active .doodle, .sticker:focus-visible .doodle { opacity: 1; visibility: visible; transition-delay: 0s; animation: doodle-reveal .58s cubic-bezier(.2,.75,.25,1) both; }
+.sticker.is-callout-active .doodle path, .sticker.is-callout-active .doodle circle, .sticker:focus-visible .doodle path, .sticker:focus-visible .doodle circle { animation: doodle-stroke .58s ease-out both; }
+@keyframes doodle-reveal { from { opacity: 0; translate: 0 5px; scale: .96; } to { opacity: 1; translate: 0 0; scale: 1; } }
+@keyframes doodle-stroke { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.doodle--plate { top: -8%; right: -8%; width: 44px; height: 44px; }
+.doodle--plate .doodle__squiggle { stroke: #fd5d5c; }
+.doodle--stamp { top: 3%; left: -12%; width: 40px; height: 40px; }
+.doodle__star, .doodle__zap { stroke: #fd5d5c; }
+.doodle--song { top: 1%; right: -7%; width: 36px; height: 38px; }
+.doodle__note { stroke-width: 2.1; }
+.doodle__float { transform-box: fill-box; transform-origin: center; }
+.sticker.is-callout-active .doodle--song .doodle__float, .sticker:focus-visible .doodle--song .doodle__float { animation: doodle-float 2.6s ease-in-out .58s infinite; }
+@keyframes doodle-float { 50% { translate: 0 -2px; } }
+.doodle--tv { right: -5%; top: 48%; width: 40px; height: 36px; }
+.doodle--cam { top: 24%; right: 5%; width: 42px; height: 42px; }
+.note { position: absolute; z-index: 8; top: auto; right: auto; bottom: auto; left: auto; width: auto; aspect-ratio: auto; overflow: visible; container-type: normal; cursor: default; touch-action: auto; user-select: auto; transform: none; color: #ff5f5d; font: 700 clamp(14px,1.35vw,24px)/1.12 'Bright Chalk','Comic Sans MS',cursive; text-shadow: 0 3px 5px #0004; opacity: 1; visibility: visible; pointer-events: none; }
+.note__text { display: block; }
+.arrow { position: absolute; overflow: visible; fill: none; stroke: #171513; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 1px 1px #fff8); }
+.arrow path { stroke-dasharray: none; stroke-dashoffset: 0; }
+.note--passion { top: 12%; left: 1%; width: 11%; }
+.note--passion .arrow { top: 108%; left: 60%; width: 125px; }
+.note--love { top: 4%; left: 6.5%; width: 10%; text-align: right; }
+.note--love .arrow { top: 90%; left: 112%; width: 110px; transform: rotate(-4deg); }
+.note--timeless { top: 0; right: 23%; width: 10%; text-align: center; }
+.note--timeless .arrow { top: 55%; left: 100%; width: 94px; transform: scaleX(-1) rotate(-10deg); }
+.note--artist { top: 38%; right: 1.5%; width: 13%; }
+.note--artist .arrow { top: -10%; right: 100%; width: 100px; transform: rotate(5deg); }
+.note--makes { top: 59%; right: 1.5%; width: 13%; }
+.note--makes .arrow { top: -10%; right: 100%; width: 94px; transform: rotate(-4deg); }
+.sticker { animation: collage-float 7.6s ease-in-out var(--float-delay,0s) infinite; }
+.sticker--frame { --float-delay: -2s; }
+.sticker--plate { --float-delay: -4.8s; }
+.sticker--stamp { --float-delay: -1.4s; }
+.sticker--song { --float-delay: -5.6s; }
+.sticker--tv { --float-delay: -3.2s; }
+.sticker--cam { --float-delay: -.8s; }
+@keyframes collage-float { 0%,100% { translate: 0 0; } 50% { translate: 0 -7px; } }
+[data-collage-interactive] { cursor: pointer; transition: translate .32s cubic-bezier(.2,.75,.25,1), scale .32s cubic-bezier(.2,.75,.25,1), filter .32s ease; }
+[data-collage-interactive].is-picked { animation: none; translate: 0 -8px; scale: 1.015; filter: drop-shadow(0 16px 14px #0004); }
+[data-collage-interactive]:active { translate: 0 -3px; scale: 1; }
+[data-collage-interactive]:focus-visible { outline: 2px solid #ff6262; outline-offset: 6px; border-radius: 12px; }
+.sticker--song.is-picked .art-song__lyric, .sticker--song:hover .art-song__lyric, .sticker--song:focus-visible .art-song__lyric { outline: 1.5px solid #ed7470; outline-offset: 5px; border-radius: 5px; }
+@media (hover: hover) and (pointer: fine) {
+  .sticker--cam:hover .sticker__art, .sticker--plate:hover .sticker__art, .sticker--stamp:hover .sticker__art, .sticker--song:hover .sticker__art, .sticker--tv:hover .sticker__art,
+  .sticker--cam:focus-visible .sticker__art, .sticker--plate:focus-visible .sticker__art, .sticker--stamp:focus-visible .sticker__art, .sticker--song:focus-visible .sticker__art, .sticker--tv:focus-visible .sticker__art { transform: translateY(-3px) scale(1.02); filter: drop-shadow(0 7px 7px #0002); }
+  .sticker:hover .doodle { opacity: 1; visibility: visible; transition-delay: 0s; animation: doodle-reveal .58s cubic-bezier(.2,.75,.25,1) both; }
+  .sticker:hover .doodle path, .sticker:hover .doodle circle { animation: doodle-stroke .58s ease-out both; }
+}
+.about-nav { z-index: 40; }
+.about-nav a[aria-current="page"] { color: #ff6868; }
+@media (max-width: 900px) and (min-width: 621px) {
+  .collage { min-height: 680px; }
+  .sticker--frame { width: 40vw; height: 62%; top: 22%; }
+  .sticker--plate { left: 14%; width: 24vw; height: 34%; }
+  .sticker--song { left: 48%; top: 18%; width: 30vw; height: 30vh; min-height: 225px; }
+  .sticker--stamp { right: 2%; width: 18vw; height: 34%; }
+  .sticker--tv { right: 11%; bottom: 0; width: 27vw; height: 40%; }
+  .sticker--cam { left: 0; width: 21vw; height: 73%; }
+  .note--artist, .note--makes { right: 1%; width: 15%; }
+}
+@media (max-width: 620px) {
+  .about-scene { height: 170svh; }
+  .collage { min-height: 620px; }
+  .sticker--frame { left: 50%; top: 26%; width: 84vw; height: 55%; }
+  .art-frame__title { top: 66%; left: -4%; font-size: clamp(38px,9vw,54px); }
+  .sticker--plate { top: 5%; left: 4%; width: 32vw; height: 26%; }
+  .sticker--stamp { top: 2%; right: 3%; width: 23vw; height: 29%; }
+  .sticker--song { top: 57%; left: 16%; width: 69vw; height: 27%; min-height: 0; }
+  .art-song { padding: 15px; border-radius: 16px; }
+  .art-song__cover { flex-basis: 42px; width: 42px; height: 42px; }
+  .art-song__meta { font-size: 12px; }
+  .art-song__meta b { font-size: 14px; }
+  .art-song__lyric { font-size: clamp(14px,3.8vw,18px); }
+  .art-song__brand { width: 62px; }
+  .sticker--tv { right: 3%; bottom: 0; width: 41vw; height: 31%; }
+  .sticker--cam { left: -5%; top: 33%; width: 33vw; height: 62%; }
+  .note { font-size: clamp(12px,3.4vw,17px); }
+  .note--passion { top: 34%; left: 20%; width: 27%; }
+  .note--passion .arrow { top: 8%; left: -58%; width: 50px; transform: scaleX(-1) rotate(-15deg); }
+  .note--love { top: 18%; left: 37%; width: 34%; text-align: left; }
+  .note--love .arrow { top: 10%; left: -39%; width: 50px; transform: scaleX(-1) rotate(-20deg); }
+  .note--timeless { top: 32%; right: 3%; width: 24%; }
+  .note--timeless .arrow { top: -78%; left: 22%; right: auto; width: 48px; transform: rotate(110deg); }
+  .note--artist { top: 46%; left: 66%; right: auto; width: 32%; }
+  .note--artist .arrow { top: 100%; left: 10%; right: auto; width: 48px; transform: rotate(0deg); }
+  .note--makes { top: 86%; right: 2%; width: 38%; }
+  .note--makes .arrow { top: -72%; right: 72%; width: 48px; transform: rotate(-25deg); }
+  .about-nav { bottom: 14px; }
+}
+@media (hover: none) {
+  .sticker[data-collage-interactive]:hover, .sticker[data-collage-interactive]:focus-visible, .sticker[data-collage-interactive].is-picked { animation: none; translate: 0 0; scale: 1; filter: none; }
+  .sticker[data-collage-interactive]:active { translate: 0 0; scale: 1; }
+  .sticker:hover .sticker__art, .sticker:focus-visible .sticker__art { transform: none; filter: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sticker, .note { animation: none !important; }
+  [data-collage-interactive], .sticker__art, .doodle, .note { transition: none !important; animation-duration: .01ms !important; }
+}
+
+/* The personal “Beyond 9–5” chapter continues the scrapbook language below
+   the pinned collage, with paper, graph lines and a string of photo flags. */
+.beyond-section {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  padding: clamp(76px, 9vw, 132px) clamp(20px, 6vw, 96px) 92px;
+  background: transparent;
+}
+.beyond-section__inner { position: relative; width: min(100%, 1320px); margin-inline: auto; }
+.beyond-section__intro { width: min(100%, 800px); margin: 0 auto clamp(48px, 6vw, 82px); text-align: center; }
+.beyond-section__eyebrow { margin: 0 0 10px; color: #e65c58; font: 700 12px/1.3 Inter,Arial,sans-serif; letter-spacing: .17em; text-transform: uppercase; }
+.beyond-section__intro h2 { margin: 0; color: #ff6868; font: 400 clamp(52px, 8vw, 112px)/1.05 'Bright Chalk','Comic Sans MS',cursive; letter-spacing: 0; }
+.beyond-section__lead { max-width: 700px; margin: 24px auto 0; color: #312d29; font: 500 clamp(18px, 2vw, 27px)/1.35 Inter,Arial,sans-serif; }
+.beyond-section__copy { max-width: 760px; margin: 30px auto 0; color: #514a44; font: 400 clamp(15px, 1.28vw, 18px)/1.7 Inter,Arial,sans-serif; }
+.beyond-section__copy strong { color: #28231f; font-weight: 700; }
+.beyond-section__labels { position: absolute; inset: 0 0 auto; display: flex; justify-content: space-between; pointer-events: none; }
+.beyond-label { display: inline-flex; align-items: center; gap: 9px; padding: 11px 18px; border: 1px solid rgba(41,34,28,.13); border-radius: 4px; background: #fffdf8; box-shadow: 0 9px 18px #2c21121a; color: #2d2925; font: 600 clamp(13px, 1.15vw, 16px)/1 Inter,Arial,sans-serif; transform: rotate(-6deg); }
+.beyond-label span { display: grid; width: 27px; height: 27px; place-items: center; border-radius: 50%; background: #8b73ef; color: white; font-size: 18px; }
+.beyond-label--dreamer { position: absolute; top: 3px; left: 1%; }
+.beyond-label--designer { position: absolute; top: 9px; right: 1%; transform: rotate(5deg); }
+.beyond-label--designer span { background: #eb66d9; }
+.beyond-label--humanist { position: absolute; top: 260px; left: 1%; transform: rotate(-5deg); }
+.beyond-label--humanist span { background: #8abf27; }
+.beyond-gallery { position: relative; width: 100vw; margin-left: calc(50% - 50vw); overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+.beyond-gallery::-webkit-scrollbar { display: none; }
+.beyond-gallery__track { position: relative; display: flex; align-items: flex-start; justify-content: space-between; gap: clamp(18px, 2vw, 38px); width: 100%; min-width: 100%; padding: 56px clamp(24px, 6.5vw, 112px) 0; }
+.beyond-gallery__rope { position: absolute; z-index: 0; top: 0; left: 0; width: 100%; height: clamp(42px, 5vw, 76px); overflow: visible; fill: none; stroke: #117a91; stroke-width: 3; stroke-linecap: round; pointer-events: none; }
+.beyond-flag { --flag-color: #f0a6a0; position: relative; z-index: 1; width: clamp(90px, 14vw, 215px); flex: 0 0 clamp(90px, 14vw, 215px); margin: 0; text-align: center; transform: rotate(var(--flag-tilt, -2deg)); transform-origin: 50% 0; transition: opacity .55s ease, translate .55s cubic-bezier(.2,.75,.25,1), transform .32s cubic-bezier(.2,.75,.25,1), filter .32s ease; }
+.beyond-flag:nth-of-type(2) { --flag-tilt: -9deg; margin-top: 0; }
+.beyond-flag:nth-of-type(3) { --flag-tilt: 5deg; margin-top: 8px; }
+.beyond-flag:nth-of-type(4) { --flag-tilt: -1deg; margin-top: 20px; }
+.beyond-flag:nth-of-type(5) { --flag-tilt: -12deg; margin-top: 0; }
+.beyond-flag--om { --flag-color: #087a9b; --flag-ink: #fff; --flag-tilt: -13deg; }
+.beyond-flag--om-art { --flag-color: #00749f; --flag-ink: #fff; --flag-tilt: 0deg; --tie-x: 50%; transform: none; }
+.beyond-flag__fabric--om { background: #00749f; }
+.beyond-flag__fabric--om img { object-fit: contain; }
+.beyond-flag--hum { --flag-color: #f4cf08; --flag-ink: #087a9b; --flag-tilt: -12deg; }
+.beyond-flag__symbol { position: relative; z-index: 2; color: var(--flag-ink, #fff); font: 400 clamp(54px, 7vw, 104px)/1 Georgia,'Noto Serif Devanagari',serif; text-shadow: 0 2px 0 #0001; }
+.beyond-flag__symbol--hum { font-size: clamp(42px, 5.5vw, 82px); font-weight: 700; }
+.beyond-flag__tie { position: absolute; z-index: 3; top: var(--tie-top, -12px); left: var(--tie-x, 50%); width: 2px; height: var(--tie-height, 12px); background: #62584e; box-shadow: 0 0 1px #fff; transform: translateX(-50%); }
+.beyond-flag__tie::before { position: absolute; top: calc(var(--tie-loop-y, 0px) - 4px); left: -3px; width: 6px; height: 6px; border: 1.5px solid #62584e; border-radius: 50%; background: #fbfaf7; box-shadow: 0 1px 2px #0002; content: ''; }
+.beyond-flag__fabric { position: relative; display: grid; width: 100%; aspect-ratio: 484 / 592; overflow: hidden; place-items: center; background: var(--flag-color, #d9d5cd); clip-path: polygon(1% 0,100% 1%,99% 98%,80% 100%,60% 98%,40% 100%,20% 98%,0 100%); filter: drop-shadow(0 12px 13px #30251b30); }
+.beyond-flag__fabric img { position: absolute; z-index: 0; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+.beyond-flag--photo-three .beyond-flag__fabric img { object-position: 67% center; }
+.beyond-flag__fabric::before { position: absolute; z-index: 1; inset: 0; background: repeating-linear-gradient(0deg, transparent 0 5px, #ffffff24 6px, #0000000a 7px, transparent 9px),linear-gradient(135deg,#ffffff4d,transparent 42%,#00000012); mix-blend-mode: soft-light; opacity: .7; content: ''; pointer-events: none; }
+.beyond-flag figcaption { position: absolute; z-index: 2; right: 0; bottom: 7%; left: 0; color: var(--flag-ink, #3c342d9c); font: 800 clamp(15px, 1.5vw, 24px)/1 Inter,Arial,sans-serif; letter-spacing: .05em; }
+.beyond-section--motion-ready .beyond-flag { opacity: 0; }
+.beyond-section--motion-ready .beyond-flag.is-visible { opacity: 1; }
+.beyond-section--motion-ready .beyond-flag:nth-of-type(2) { transition-delay: .08s; }
+.beyond-section--motion-ready .beyond-flag:nth-of-type(3) { transition-delay: .16s; }
+.beyond-section--motion-ready .beyond-flag:nth-of-type(4) { transition-delay: .24s; }
+.beyond-section--motion-ready .beyond-flag:nth-of-type(5) { transition-delay: .32s; }
+.beyond-section__footnote { margin: 46px 0 0; color: #e65c58; font: 400 clamp(16px, 1.4vw, 20px)/1.3 'Bright Chalk','Comic Sans MS',cursive; text-align: center; }
+.beyond-section__footnote span { display: inline-block; margin-right: 5px; color: #8b73ef; }
+@media (hover: hover) and (pointer: fine) {
+  .beyond-flag:hover { z-index: 2; transform: rotate(calc(var(--flag-tilt, -2deg) + 1deg)); filter: drop-shadow(0 15px 13px #30251b35); }
+  .beyond-flag--om-art:hover { transform: none; }
+  .beyond-section--motion-ready .beyond-flag.is-visible .beyond-flag__fabric { transform-origin: 50% 0; animation: prayer-flag-breeze 5.8s ease-in-out infinite alternate; }
+  .beyond-section--motion-ready .beyond-flag:nth-of-type(2).is-visible .beyond-flag__fabric { animation-delay: -1.4s; animation-duration: 6.2s; }
+  .beyond-section--motion-ready .beyond-flag:nth-of-type(3).is-visible .beyond-flag__fabric { animation-delay: -3.1s; animation-duration: 5.4s; }
+  .beyond-section--motion-ready .beyond-flag:nth-of-type(4).is-visible .beyond-flag__fabric { animation-delay: -2.2s; animation-duration: 6.5s; }
+  .beyond-section--motion-ready .beyond-flag:nth-of-type(5).is-visible .beyond-flag__fabric { animation-delay: -.8s; animation-duration: 5.9s; }
+}
+@keyframes prayer-flag-breeze { from { transform: rotate(-.65deg) translateY(0); } to { transform: rotate(.65deg) translateY(1px); } }
+@media (max-width: 900px) {
+  .beyond-section__intro { width: min(100%, 680px); }
+  .beyond-section__labels { position: relative; inset: auto; justify-content: center; flex-wrap: wrap; gap: 12px; margin: 0 0 36px; }
+  .beyond-label, .beyond-label--dreamer, .beyond-label--designer, .beyond-label--humanist { position: static; transform: rotate(-2deg); }
+  .beyond-label--designer { transform: rotate(2deg); }
+  .beyond-label--humanist { transform: rotate(-1deg); }
+}
+@media (max-width: 620px) {
+  .beyond-section { padding: 64px 20px 82px; }
+  .beyond-section__labels { gap: 9px; margin-bottom: 34px; }
+  .beyond-label { gap: 6px; padding: 8px 11px; font-size: 12px; }
+  .beyond-label span { width: 23px; height: 23px; font-size: 15px; }
+  .beyond-section__intro { margin-bottom: 38px; }
+  .beyond-section__intro h2 { font-size: clamp(48px, 14vw, 72px); }
+  .beyond-section__lead { margin-top: 18px; font-size: 18px; }
+  .beyond-section__copy { margin-top: 20px; font-size: 14px; line-height: 1.65; }
+  .beyond-gallery__track { width: max-content; min-width: 100%; justify-content: flex-start; gap: 14px; padding: 44px 18px 0; }
+  .beyond-gallery__rope { height: 48px; }
+  .beyond-flag { width: clamp(88px, 26vw, 120px); flex-basis: clamp(88px, 26vw, 120px); }
+  .beyond-flag:nth-of-type(3) { margin-top: 8px; }
+  .beyond-flag:nth-of-type(4) { margin-top: 12px; }
+  .beyond-flag:nth-of-type(5) { margin-top: 0; }
+  .beyond-flag__symbol { font-size: 56px; }
+  .beyond-flag__symbol--hum { font-size: 44px; }
+  .beyond-flag figcaption { font-size: 15px; }
+  .beyond-section__footnote { margin-top: 34px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .beyond-flag { transition: none !important; }
+  .beyond-flag__fabric { animation: none !important; }
+}

@@ -1,5 +1,7 @@
-.claude/mcp.json
 .claude/
 .mcp.json
 node_modules/
+.dist/
+.env*
+!.env.example
 .DS_Store
