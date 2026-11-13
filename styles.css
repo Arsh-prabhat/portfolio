@@ -27,7 +27,8 @@ img { display: block; max-width: 100%; }
 .graph-paper::before { position: absolute; z-index: -1; inset: 0; content: ""; background-image: url('public/assets/imgImage39.png'); background-size: 100% auto; background-position: center top; opacity: .5; pointer-events: none; }
 .hero { height: 100vh; height: 100svh; min-height: 0; max-height: none; position: relative; z-index: 1; overflow: visible; background-size: 100% auto; }
 .hero::after { position: absolute; z-index: 4; content: ""; left: 0; right: 0; bottom: -55px; height: 150px; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,.75) 56%, #fff 100%); filter: blur(27.55px); clip-path: inset(0); pointer-events: none; }
-.name-mark, .hand-title, .footer-name { font-family: 'Comic Sans MS', 'Bradley Hand', cursive; font-weight: 700; }
+.name-mark, .footer-name { font-family: 'Comic Sans MS', 'Bradley Hand', cursive; font-weight: 700; }
+.hand-title { font-family: 'Bright Chalk', 'Comic Sans MS', cursive; font-weight: 400; }
 .name-mark { position: absolute; z-index: 2; margin: 0; top: 0; left: 50%; transform: translateX(-50%); width: 1067px; height: 1067px; pointer-events: none; }
 .name-mark:focus { outline: none; }
 .name-mark-mobile { display: none; }
