@@ -23,10 +23,11 @@
   <body>
     <main>
       <section class="hero graph-paper" id="home" aria-label="Introduction">
-        <h1 class="name-mark"><img src="public/assets/arsh-prabhat.svg" alt="Arsh Prabhat's" /></h1>
+        <h1 class="name-mark" aria-label="Arsh Prabhat's"><img src="public/assets/arsh-prabhat.svg" alt="" aria-hidden="true" /><span class="name-mark-mobile" aria-hidden="true">Arsh's</span></h1>
         <div class="hero-content">
-          <article class="note" tabindex="0" aria-roledescription="draggable paper note" aria-label="Interactive paper note. Drag to move it, or use the arrow keys to nudge it." data-cursor-label="Drag me around" data-cursor-theme="pink" data-cursor-shape="hand">
+          <article class="note" tabindex="0" aria-roledescription="draggable paper note" aria-label="Interactive paper note. Drag from the top pin on touch, or use the arrow keys to move it." data-cursor-label="Drag me around" data-cursor-theme="pink" data-cursor-shape="hand">
             <img class="note-paper" src="public/assets/imgImage41.png" alt="" />
+            <span class="note-drag-handle" aria-hidden="true"></span>
             <section class="note-copy" aria-label="A design in progress">
               <div class="note-copy-inner">
                 <span class="game-eyebrow">A DESIGN IN PROGRESS</span>
@@ -57,10 +58,10 @@
           <div class="portfolio-title"><span>Portfolio</span><img src="public/assets/imgVector16.svg" alt="" /></div>
         </div>
         <nav class="nav" aria-label="Main navigation">
-            <a class="active" href="#home" data-cursor-label="Go to Home" data-cursor-theme="pink">Home</a>
+            <a class="active" href="#home" aria-current="page" data-cursor-label="Go to Home" data-cursor-theme="pink">Home</a>
           <a href="about.html" data-nav-section="about" data-page-transition data-cursor-label="Explore About" data-cursor-theme="blue">About</a>
-          <a href="#experience" data-cursor-label="View experience" data-cursor-theme="green">Resume</a>
-          <a href="#work" data-cursor-label="Explore projects" data-cursor-theme="orange">Playground</a>
+          <a href="public/assets/Arsh%20UIUX%20Resume.pdf" target="_blank" rel="noopener" data-cursor-label="Open resume" data-cursor-theme="green">Resume</a>
+          <a href="playground.html" data-cursor-label="Make something" data-cursor-theme="orange">Playground</a>
         </nav>
       </section>
 
@@ -90,6 +91,7 @@
             <img class="phone-shell" src="public/assets/Frame 17.png" alt="" draggable="true" />
             <!-- <img class="phone-screen" src="public/assets/imgChangeThis1.png" alt="" draggable="false" /> -->
             </button>
+            </div>
             </div>
             <div class="desk-glass-overlay" aria-live="polite" aria-atomic="true">
               <article class="desk-glass-panel" id="desk-glass-panel" hidden>
@@ -439,9 +441,7 @@
     </div>
     <section class="welcome-intro" aria-label="Welcome to Arsh Prabhat’s portfolio" aria-modal="true" role="dialog">
       <div class="welcome-intro__content">
-        <p class="welcome-intro__eyebrow">A little hello from around the world</p>
-        <h1 class="welcome-intro__greeting" aria-live="off">Hello</h1>
-        <p class="welcome-intro__trail" aria-hidden="true">Hello <span>·</span> Hola <span>·</span> Namaste <span>·</span> Bonjour <span>·</span> Salaam <span>·</span> Ciao <span>·</span> Konnichiwa <span>·</span> Jambo</p>
+        <h1 class="welcome-intro__greeting" aria-live="polite" aria-atomic="true" aria-label="Hello">Hello</h1>
       </div>
       <button class="welcome-intro__skip" type="button">Skip intro <span aria-hidden="true">↗</span></button>
     </section>

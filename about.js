@@ -2,6 +2,8 @@
   const cursor = document.querySelector('.custom-cursor');
   const root = document.documentElement;
   const scene = document.querySelector('.about-scene');
+  const collage = scene?.querySelector('.collage');
+  const nav = document.querySelector('.about-nav');
   const interactiveItems = [...document.querySelectorAll('[data-collage-interactive]')];
   const selectItem = (item) => {
     const nextSelected = !item.classList.contains('is-picked');
@@ -45,12 +47,93 @@
   });
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const compactLayout = window.matchMedia('(max-width: 1100px)').matches;
+  const portraitStage = window.matchMedia('(max-width: 1100px) and (orientation: portrait)');
   const gsap = window.gsap;
+
+  const syncAboutSceneScale = () => {
+    if (!scene || !collage) return;
+
+    const sceneRect = scene.getBoundingClientRect();
+    const availableWidth = scene.clientWidth || document.documentElement.clientWidth || window.innerWidth;
+    const viewportTop = Math.max(0, window.visualViewport?.offsetTop || 0);
+    const navTop = nav?.getBoundingClientRect().top ?? window.innerHeight;
+    const availableTop = Math.max(0, viewportTop - sceneRect.top);
+    const availableBottom = Math.max(availableTop, navTop - 16 - sceneRect.top);
+    const availableHeight = Math.max(0, availableBottom - availableTop);
+
+    if (portraitStage.matches) {
+      // Use one fixed portrait coordinate system for every tablet/mobile
+      // element, then scale the complete stage uniformly into the nav-free area.
+      const portraitWidth = 1000;
+      const portraitHeight = 1600;
+      const scale = Math.min(1, availableWidth / portraitWidth, availableHeight / portraitHeight);
+      collage.style.width = `${portraitWidth}px`;
+      collage.style.height = `${portraitHeight}px`;
+      collage.style.left = `${(availableWidth - portraitWidth * scale) / 2}px`;
+      collage.style.top = `${availableTop + (availableHeight - portraitHeight * scale) / 2}px`;
+      collage.style.transformOrigin = 'top left';
+      collage.style.transform = `scale(${scale})`;
+      scene.style.setProperty('--about-scene-scale', String(scale));
+      return;
+    }
+
+    // Measure the complete painted collage at its reference size. This union
+    // includes rotated stickers, labels, doodles, and arrows that extend past
+    // the nominal 1920 × 1080 canvas.
+    collage.style.width = '1920px';
+    collage.style.height = '1080px';
+    collage.style.left = '0px';
+    collage.style.top = '0px';
+    collage.style.transformOrigin = 'top left';
+    collage.style.transform = 'scale(1)';
+    const stageRect = collage.getBoundingClientRect();
+    let bounds = { left: 0, top: 0, right: stageRect.width, bottom: stageRect.height };
+    collage.querySelectorAll('*').forEach((element) => {
+      const rect = element.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      const left = rect.left - stageRect.left;
+      const top = rect.top - stageRect.top;
+      bounds.left = Math.min(bounds.left, left);
+      bounds.top = Math.min(bounds.top, top);
+      bounds.right = Math.max(bounds.right, left + rect.width);
+      bounds.bottom = Math.max(bounds.bottom, top + rect.height);
+    });
+
+    // Leave room for drop shadows and the fixed navigation; the nav itself is
+    // outside the transformed stage and never participates in its scale.
+    const paintPad = 24;
+    bounds = {
+      left: bounds.left - paintPad,
+      top: bounds.top - paintPad,
+      right: bounds.right + paintPad,
+      bottom: bounds.bottom + paintPad,
+    };
+    const contentWidth = bounds.right - bounds.left;
+    const contentHeight = bounds.bottom - bounds.top;
+    // Convert viewport coordinates to the collage's positioned ancestor's
+    // local coordinates. This keeps the fit correct if the page restores a
+    // non-zero scroll position or the visual viewport is offset on mobile.
+    const scale = Math.min(1, availableWidth / contentWidth, availableHeight / contentHeight);
+    const left = (availableWidth - contentWidth * scale) / 2 - bounds.left * scale;
+    const top = availableTop + (availableHeight - contentHeight * scale) / 2 - bounds.top * scale;
+
+    scene.style.setProperty('--about-scene-scale', String(scale));
+    collage.style.left = `${left}px`;
+    collage.style.top = `${top}px`;
+    collage.style.transform = `scale(${scale})`;
+  };
+  syncAboutSceneScale();
+  window.addEventListener('resize', syncAboutSceneScale, { passive: true });
+  window.visualViewport?.addEventListener('resize', syncAboutSceneScale, { passive: true });
+  portraitStage.addEventListener('change', syncAboutSceneScale);
+  if (nav && 'ResizeObserver' in window) new ResizeObserver(syncAboutSceneScale).observe(nav);
+  document.fonts?.ready.then(syncAboutSceneScale);
 
   if (gsap) {
     const revealItems = [...document.querySelectorAll('[data-reveal]:not(.note)')];
     const entrance = gsap.timeline({ defaults: { ease: 'power3.out' } });
-    if (!reducedMotion) {
+    if (!reducedMotion && !compactLayout) {
       entrance.fromTo(revealItems, { autoAlpha: 0, y: 28, scale: .97 }, { autoAlpha: 1, y: 0, scale: 1, duration: .7, stagger: .07 });
     } else {
       gsap.set(revealItems, { autoAlpha: 1, clearProps: 'transform' });
@@ -70,7 +153,7 @@
     if (guitar) scrollBurst.to(guitar, { x: -18, y: 12, rotation: 25, duration: .8 }, .16);
     if (movingStickers.length) scrollBurst.to(movingStickers, { scale: 1.025, duration: .55, stagger: .025 }, .2);
 
-    if (scene && !reducedMotion) {
+    if (scene && !reducedMotion && !compactLayout && scene.offsetHeight > window.innerHeight + 1) {
       let frame = 0;
       const measureProgress = () => {
         frame = 0;

@@ -1,14 +1,15 @@
 .about-body {
   --about-grid-size: clamp(42px, 4vw, 76px);
+  --beyond-inline-pad: clamp(20px, 6vw, 96px);
   min-height: 100svh;
-  overflow-x: hidden;
+  overflow-x: visible;
   background-color: #fbfaf7;
   background-image: linear-gradient(rgba(82,75,66,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(82,75,66,.14) 1px,transparent 1px);
   background-size: var(--about-grid-size) var(--about-grid-size);
   background-position: 0 0;
   background-attachment: fixed;
 }
-.about-scene { position: relative; height: 180svh; background: transparent; }
+.about-scene { position: relative; height: 180svh; overflow-x: clip; background: transparent; }
 .collage {
   position: sticky; top: 0; width: 100%; height: 100svh; min-height: 700px; max-height: 1100px;
   overflow: visible; isolation: isolate; background: transparent;
@@ -116,7 +117,7 @@
   .art-song__lyric { font-size: clamp(14px,3.8vw,18px); }
   .art-song__brand { width: 62px; }
   .sticker--tv { right: 3%; bottom: 0; width: 41vw; height: 31%; }
-  .sticker--cam { left: -5%; top: 33%; width: 33vw; height: 62%; }
+  .sticker--cam { left: 0; top: 33%; width: 33vw; height: 62%; }
   .note { font-size: clamp(12px,3.4vw,17px); }
   .note--passion { top: 34%; left: 20%; width: 27%; }
   .note--passion .arrow { top: 8%; left: -58%; width: 50px; transform: scaleX(-1) rotate(-15deg); }
@@ -128,7 +129,7 @@
   .note--artist .arrow { top: 100%; left: 10%; right: auto; width: 48px; transform: rotate(0deg); }
   .note--makes { top: 86%; right: 2%; width: 38%; }
   .note--makes .arrow { top: -72%; right: 72%; width: 48px; transform: rotate(-25deg); }
-  .about-nav { bottom: 14px; }
+  .about-nav { bottom: max(14px, env(safe-area-inset-bottom)); }
 }
 @media (hover: none) {
   .sticker[data-collage-interactive]:hover, .sticker[data-collage-interactive]:focus-visible, .sticker[data-collage-interactive].is-picked { animation: none; translate: 0 0; scale: 1; filter: none; }
@@ -146,7 +147,7 @@
   position: relative;
   z-index: 2;
   overflow: hidden;
-  padding: clamp(76px, 9vw, 132px) clamp(20px, 6vw, 96px) 92px;
+  padding: clamp(76px, 9vw, 132px) var(--beyond-inline-pad) 92px;
   background: transparent;
 }
 .beyond-section__inner { position: relative; width: min(100%, 1320px); margin-inline: auto; }
@@ -164,7 +165,8 @@
 .beyond-label--designer span { background: #eb66d9; }
 .beyond-label--humanist { position: absolute; top: 260px; left: 1%; transform: rotate(-5deg); }
 .beyond-label--humanist span { background: #8abf27; }
-.beyond-gallery { position: relative; width: 100vw; margin-left: calc(50% - 50vw); overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+.beyond-gallery { position: relative; width: calc(100% + 2 * var(--beyond-inline-pad)); margin-left: calc(-1 * var(--beyond-inline-pad)); overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+.beyond-gallery:focus-visible { outline: 2px solid #fd5d5c; outline-offset: 4px; }
 .beyond-gallery::-webkit-scrollbar { display: none; }
 .beyond-gallery__track { position: relative; display: flex; align-items: flex-start; justify-content: space-between; gap: clamp(18px, 2vw, 38px); width: 100%; min-width: 100%; padding: 56px clamp(24px, 6.5vw, 112px) 0; }
 .beyond-gallery__rope { position: absolute; z-index: 0; top: 0; left: 0; width: 100%; height: clamp(42px, 5vw, 76px); overflow: visible; fill: none; stroke: #117a91; stroke-width: 3; stroke-linecap: round; pointer-events: none; }
@@ -235,4 +237,133 @@
 @media (prefers-reduced-motion: reduce) {
   .beyond-flag { transition: none !important; }
   .beyond-flag__fabric { animation: none !important; }
+}
+
+/* Keep the artwork in its original 1920 × 1080 coordinate space and scale
+   the whole scrapbook uniformly to the viewport area above the fixed nav. */
+.about-scene {
+  --about-scene-scale: min(1, calc(100% / 2080px), calc((100dvh - 150px) / 1180px));
+  position: relative;
+  height: 100dvh;
+  min-height: 0;
+  padding: 0;
+  overflow: clip;
+  isolation: isolate;
+}
+.collage {
+  position: absolute;
+  top: calc((100dvh - 88px) / 2);
+  left: 50%;
+  width: 1920px;
+  height: 1080px;
+  min-height: 0;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  container-type: size;
+  transform: translate(-50%, -50%) scale(var(--about-scene-scale, .4));
+  transform-origin: center;
+}
+@media (max-width: 1100px) {
+  .collage > .sticker { animation: none; translate: 0 0; }
+}
+/* Restore the original desktop scene coordinates after older responsive
+   declarations above; only the common parent is scaled. */
+.sticker--frame {
+  left: 50%; top: 19%; right: auto; bottom: auto;
+  width: min(34cqw, 660px); height: 70%; aspect-ratio: auto;
+  transform: translateX(-50%) rotate(var(--rot, 0deg)) !important;
+}
+.sticker--frame .art-frame__title {
+  top: 64%; left: -11%; max-width: none;
+  font-size: clamp(42px, 4.4cqw, 82px); white-space: nowrap;
+}
+.sticker--plate { left: 20%; top: 5%; right: auto; bottom: auto; width: min(19cqw, 370px); height: 39%; }
+.sticker--stamp { top: 0; right: 4%; bottom: auto; left: auto; width: min(16cqw, 310px); height: 39%; }
+.sticker--song { left: 51.5%; top: 12%; right: auto; bottom: auto; width: min(23cqw, 450px); height: min(34cqh, 320px); min-height: 250px; }
+.art-song { padding: clamp(18px, 1.4cqw, 28px); border-radius: 20px; }
+.art-song__cover { flex-basis: 58px; width: 58px; height: 58px; }
+.art-song__meta { font-size: 16px; }
+.art-song__meta b { font-size: 17px; }
+.art-song__lyric { font-size: clamp(15px, 1.35cqw, 22px); }
+.art-song__brand { width: 78px; }
+.sticker--tv { right: 16%; bottom: 0; left: auto; top: auto; width: min(22cqw, 430px); height: 49%; }
+.sticker--cam { left: 2%; top: 19%; right: auto; bottom: auto; width: min(17cqw, 400px); height: 78%; }
+.note {
+  position: absolute;
+  width: auto;
+  max-width: none;
+  color: #ff5f5d;
+  font-size: clamp(14px, 1.35cqw, 24px);
+  line-height: 1.12;
+  text-align: left;
+  text-shadow: 0 3px 5px #0004;
+}
+.note .arrow { display: block; }
+.note--passion { top: 12%; left: 1%; right: auto; bottom: auto; width: 11%; }
+.note--passion .arrow { top: 108%; left: 60%; right: auto; width: 125px; transform: none; }
+.note--love { top: 4%; left: 6.5%; right: auto; bottom: auto; width: 10%; text-align: right; }
+.note--love .arrow { top: 90%; left: 112%; right: auto; width: 110px; transform: rotate(-4deg); }
+.note--timeless { top: 0; left: auto; right: 23%; bottom: auto; width: 10%; text-align: center; }
+.note--timeless .arrow { top: 55%; left: 100%; right: auto; width: 94px; transform: scaleX(-1) rotate(-10deg); }
+.note--artist { top: 38%; left: auto; right: 1.5%; bottom: auto; width: 13%; }
+.note--artist .arrow { top: -10%; right: 100%; left: auto; width: 100px; transform: rotate(5deg); }
+.note--makes { top: 59%; left: auto; right: 1.5%; bottom: auto; width: 13%; }
+.note--makes .arrow { top: -10%; right: 100%; left: auto; width: 94px; transform: rotate(-4deg); }
+@media (max-width: 1100px) {
+  .about-scene { --beyond-inline-pad: 20px; }
+  .beyond-gallery { width: calc(100% + 2 * var(--beyond-inline-pad)); margin-left: calc(-1 * var(--beyond-inline-pad)); }
+  .doodle--song { right: 2%; }
+}
+
+/* Portrait tablet and phone use a portrait scrapbook stage. The desktop
+   coordinate map above remains untouched; these placements adapt the same
+   stickers and annotations around the portrait for a narrow canvas. */
+@media (max-width: 1100px) and (orientation: portrait) {
+  .collage {
+    container-type: size;
+    transform: none;
+    transform-origin: top left;
+  }
+
+  .sticker--frame {
+    left: 50%; top: 31%; width: 56cqw; height: 64cqw;
+    transform: translateX(-50%) rotate(var(--rot, 0deg)) !important;
+  }
+  .sticker--frame .art-frame__photo { display: grid; place-items: center; }
+  .sticker--frame .art-frame__img { object-position: center center; }
+  .sticker--frame .art-frame__title {
+    top: 64%; left: -7%; font-size: clamp(30px, 4.5cqw, 46px);
+  }
+  .sticker--plate { left: 4%; top: 5%; width: 30cqw; height: 32cqw; }
+  .sticker--stamp { top: 31%; right: 1%; width: 16cqw; height: 24cqw; }
+  .sticker--song { left: 55%; top: 2%; width: 37cqw; height: 26.5cqw; min-height: 0; }
+  .art-song { padding: 1.5cqw; border-radius: 1.6cqw; }
+  .art-song__head { gap: 1.2cqw; }
+  .art-song__cover { flex-basis: 6.5cqw; width: 6.5cqw; height: 6.5cqw; border-radius: 1cqw; }
+  .art-song__meta { font-size: 2.2cqw; line-height: 1.15; }
+  .art-song__meta b { font-size: 2.3cqw; }
+  .art-song__lyric { font-size: 2.35cqw; line-height: 1.2; }
+  .art-song__brand { width: 8cqw; }
+  .sticker--tv { right: 4%; bottom: 1%; width: 34cqw; height: 37cqw; }
+  .sticker--cam { left: 7%; top: 76%; width: 20cqw; height: 38cqw; }
+  .doodle--plate, .doodle--stamp, .doodle--song, .doodle--tv, .doodle--cam {
+    width: 7cqw; height: 7cqw;
+  }
+  .note {
+    font-size: 34px;
+    line-height: 1.08;
+    text-shadow: 0 1px 3px #0003;
+  }
+  .note--love { top: 26%; left: 2%; right: auto; width: 17%; text-align: left; }
+  .note--love .arrow { top: -90%; left: 54%; width: 9cqw; transform: rotate(-35deg); }
+  .note--timeless { top: 48%; right: 1%; width: 18%; text-align: right; }
+  .note--timeless .arrow { top: -70%; left: 26%; right: auto; width: 9cqw; transform: rotate(75deg); }
+  .note--artist { top: 21.5%; right: 8%; left: 55%; width: 37%; }
+  .note--artist .arrow { top: -70%; right: 70%; left: auto; width: 9cqw; transform: rotate(-35deg); }
+  .note--passion { top: 77%; left: 34%; width: 25%; }
+  .note--passion .arrow { top: 25%; left: -30%; width: 9cqw; transform: scaleX(-1) rotate(-14deg); }
+  .note--makes { top: 88%; right: 42%; left: auto; width: 20%; }
+  .note--makes .arrow { top: -45%; right: -35%; width: 9cqw; transform: rotate(-15deg); }
 }

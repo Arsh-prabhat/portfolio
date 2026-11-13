@@ -1,17 +1,3 @@
-const links = document.querySelectorAll('.nav a');
-const sections = [...document.querySelectorAll('main section[id]')];
-
-const observer = new IntersectionObserver((entries) => {
-  const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-  if (!visible) return;
-  links.forEach((link) => {
-    const sectionId = link.dataset.navSection || link.hash.slice(1);
-    link.classList.toggle('active', sectionId === visible.target.id);
-  });
-}, { rootMargin: '-30% 0px -55% 0px', threshold: [0, .2, .5] });
-
-sections.forEach((section) => observer.observe(section));
-
 const note = document.querySelector('.note');
 const hero = document.querySelector('.hero');
 
@@ -34,6 +20,7 @@ if (note && hero) {
 
   note.addEventListener('pointerdown', (event) => {
     if (event.target.closest('[data-note-control], button, a, input, select, textarea')) return;
+    if (event.pointerType === 'touch' && !event.target.closest('.note-drag-handle')) return;
     if (event.button !== 0) return;
     const noteRect = note.getBoundingClientRect();
     const parentRect = noteParent.getBoundingClientRect();
@@ -220,6 +207,20 @@ function initDeskCamera() {
     panel.hidden = false;
     overlay.classList.add('is-visible');
     focusObject(object);
+
+    if (window.matchMedia('(max-width: 900px)').matches) {
+      requestAnimationFrame(() => {
+        const navTop = document.querySelector('.nav')?.getBoundingClientRect().top ?? window.innerHeight;
+        const panelBottom = panel.getBoundingClientRect().bottom;
+        const overflow = panelBottom - navTop + 16;
+        if (overflow > 0) {
+          window.scrollBy({
+            top: overflow,
+            behavior: prefersReducedMotion.matches ? 'instant' : 'smooth',
+          });
+        }
+      });
+    }
   };
 
   objects.forEach((object) => {
@@ -260,13 +261,14 @@ function initDeskScrollExpansion() {
   if (!section || !stage || !viewport || !desk || !heading) return;
 
   section.classList.add('desk-layout-ready');
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  section.classList.add('desk-scroll-active');
+  const compactLayout = window.matchMedia('(max-width: 900px)');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   let frame = 0;
   let baseRect = null;
   const update = () => {
     frame = 0;
+    if (compactLayout.matches || reducedMotion.matches) return;
     const sectionStart = window.scrollY + section.getBoundingClientRect().top;
     const scrollRange = Math.max(1, section.offsetHeight - stage.offsetHeight);
     const progress = Math.max(0, Math.min(1, (window.scrollY - sectionStart) / scrollRange));
@@ -313,12 +315,22 @@ function initDeskScrollExpansion() {
   };
   const measure = () => {
     baseRect = null;
+    section.classList.toggle('desk-layout-flow', compactLayout.matches);
+    section.classList.toggle('desk-scroll-active', !compactLayout.matches && !reducedMotion.matches);
+    if (compactLayout.matches || reducedMotion.matches) {
+      desk.style.transform = '';
+      heading.style.opacity = '';
+      nav?.classList.remove('is-desk-hidden');
+      return;
+    }
     queueUpdate();
   };
 
   window.addEventListener('scroll', queueUpdate, { passive: true });
   window.addEventListener('resize', measure, { passive: true });
   window.visualViewport?.addEventListener('resize', measure, { passive: true });
+  compactLayout.addEventListener?.('change', measure);
+  reducedMotion.addEventListener?.('change', measure);
   if ('ResizeObserver' in window) {
     const observer = new ResizeObserver(measure);
     observer.observe(stage);
@@ -536,12 +548,13 @@ function initExperienceScroll() {
   if (!section || !viewport || !track) return;
 
   let distance = 0;
+  let travelDistance = 0;
   let frame = 0;
   const update = () => {
     frame = 0;
     const sectionStart = window.scrollY + section.getBoundingClientRect().top;
-    const progress = distance > 0
-      ? Math.min(1, Math.max(0, (window.scrollY - sectionStart) / distance))
+    const progress = travelDistance > 0
+      ? Math.min(1, Math.max(0, (window.scrollY - sectionStart) / travelDistance))
       : 0;
     track.style.setProperty('--experience-x', `${-distance * progress}px`);
   };
@@ -550,8 +563,9 @@ function initExperienceScroll() {
   };
   const measure = () => {
     distance = Math.max(0, track.scrollWidth - viewport.clientWidth);
+    travelDistance = distance > 0 ? Math.max(distance * 2.4, window.innerHeight * 2.4) : 0;
     section.style.setProperty('--experience-distance', `${distance}px`);
-    section.style.height = `calc(100svh + ${distance}px)`;
+    section.style.height = `calc(100svh + ${travelDistance}px)`;
     queueUpdate();
   };
 

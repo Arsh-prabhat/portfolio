@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fbfaf7" />
+    <meta name="description" content="A little creative studio by Arsh Prabhat. Draw, experiment, and share a small artwork." />
+    <title>The Playground — Arsh Prabhat</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="playground.css" />
+    <script defer src="playground.js"></script>
+    <script defer src="script.js"></script>
+  </head>
+  <body class="playground-body">
+    <main class="playground-page">
+      <header class="playground-intro">
+        <p class="playground-eyebrow">A tiny creative studio</p>
+        <h1>The Playground</h1>
+        <p class="playground-subtitle">A little space to make something, break something, and have fun.</p>
+        <p class="playground-scribble">Not an artist? Perfect. Neither is the computer.</p>
+      </header>
+
+      <section class="studio" aria-labelledby="studio-title">
+        <div class="studio__topline">
+          <div><p class="studio__eyebrow">Your canvas</p><h2 id="studio-title">Make a little something</h2></div>
+          <p class="studio__hint">Pick a tool, choose a colour, and let it happen.</p>
+        </div>
+
+        <div class="studio__toolbar" role="toolbar" aria-label="Drawing tools">
+          <div class="studio__tool-group" aria-label="Tools">
+            <button class="studio-tool is-selected" type="button" data-tool="pencil" aria-label="Pencil" aria-pressed="true"><span aria-hidden="true">✎</span><small>Pencil</small></button>
+            <button class="studio-tool" type="button" data-tool="eraser" aria-label="Eraser" aria-pressed="false"><span aria-hidden="true">⌫</span><small>Eraser</small></button>
+            <button class="studio-tool" type="button" data-tool="rectangle" aria-label="Rectangle" aria-pressed="false"><span aria-hidden="true">□</span><small>Box</small></button>
+            <button class="studio-tool" type="button" data-tool="circle" aria-label="Circle" aria-pressed="false"><span aria-hidden="true">◯</span><small>Circle</small></button>
+            <button class="studio-tool" type="button" data-tool="triangle" aria-label="Triangle" aria-pressed="false"><span aria-hidden="true">△</span><small>Triangle</small></button>
+            <button class="studio-tool" type="button" data-tool="line" aria-label="Straight line" aria-pressed="false"><span aria-hidden="true">／</span><small>Line</small></button>
+            <button class="studio-tool studio-tool--fill" type="button" data-tool="fill" aria-label="Toggle filled shapes" aria-pressed="false"><span aria-hidden="true">▧</span><small>Fill</small></button>
+            <button class="studio-tool" type="button" data-tool="text" aria-label="Text tool" aria-pressed="false"><span aria-hidden="true">T</span><small>Text</small></button>
+          </div>
+          <div class="studio__settings">
+            <label class="studio-color" for="studio-color"><span>Ink</span><input id="studio-color" type="color" value="#fd5d5c" aria-label="Choose drawing colour" /></label>
+            <div class="studio-swatches" role="group" aria-label="Quick colours">
+              <button type="button" class="studio-swatch is-current" style="--swatch:#fd5d5c" data-color="#fd5d5c" aria-label="Coral" aria-pressed="true"></button>
+              <button type="button" class="studio-swatch" style="--swatch:#171717" data-color="#171717" aria-label="Ink black" aria-pressed="false"></button>
+              <button type="button" class="studio-swatch" style="--swatch:#2878a5" data-color="#2878a5" aria-label="Blue" aria-pressed="false"></button>
+              <button type="button" class="studio-swatch" style="--swatch:#71906a" data-color="#71906a" aria-label="Sage" aria-pressed="false"></button>
+              <button type="button" class="studio-swatch" style="--swatch:#e8ad36" data-color="#e8ad36" aria-label="Sunshine" aria-pressed="false"></button>
+            </div>
+            <label class="studio-size" for="studio-size"><span>Stroke</span><input id="studio-size" type="range" min="1" max="24" value="5" /><output for="studio-size">5</output></label>
+            <label class="studio-text-entry" hidden for="studio-text">Canvas text<input id="studio-text" type="text" maxlength="40" value="hello!" /></label>
+          </div>
+        </div>
+
+        <div class="studio__paper-wrap">
+          <canvas id="drawing-canvas" class="studio__canvas" width="1000" height="560" tabindex="0" aria-label="Drawing canvas. Use pointer, touch, or stylus to draw. Keyboard shortcuts: Control or Command Z to undo and Shift Control or Command Z to redo."></canvas>
+          <div class="studio__paper-corner" aria-hidden="true">✳</div>
+        </div>
+        <div class="studio__bottomline">
+          <p class="studio__status" id="studio-status" role="status" aria-live="polite">Your paper is ready. Start anywhere.</p>
+          <div class="studio__actions" aria-label="Canvas actions">
+            <button class="studio-action studio-action--quiet" type="button" id="undo-button" disabled aria-label="Undo">↶ <span>Undo</span></button>
+            <button class="studio-action studio-action--quiet" type="button" id="redo-button" disabled aria-label="Redo">↷ <span>Redo</span></button>
+            <button class="studio-action studio-action--quiet" type="button" id="clear-button">Clear</button>
+            <span class="studio-action-divider" aria-hidden="true"></span>
+            <button class="studio-action studio-action--dark" type="button" id="save-gallery-button">Save to Gallery <span aria-hidden="true">↗</span></button>
+            <button class="studio-action" type="button" id="download-button">Save to Device <span aria-hidden="true">↓</span></button>
+            <button class="studio-action" type="button" id="send-art-button">Send to Arsh <span aria-hidden="true">↗</span></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="community" aria-labelledby="community-title">
+        <header class="community__heading"><div><p class="playground-eyebrow">Pinned with love</p><h2 id="community-title">The Community Wall</h2></div><p>Little things people made here.</p></header>
+        <div class="community__grid" id="community-grid" aria-live="polite">
+          <article class="wall-card wall-card--sample" style="--card-tilt:-2deg">
+            <button class="wall-card__art" type="button" data-sample-art="sunny" aria-label="Preview Studio sample: A little sunshine">
+              <svg viewBox="0 0 420 280" role="img" aria-label="A hand-drawn sun and rainbow"><path d="M120 179c29-69 74-89 124-51s65 73 95 56" fill="none" stroke="#fd5d5c" stroke-width="12" stroke-linecap="round"/><circle cx="112" cy="83" r="29" fill="#f1bc44"/><path d="M112 39v-16m0 120v-16M68 83H51m122 0h-17M81 52 69 40m85 85-12-12m0-61 12-12M81 114l-12 12" stroke="#f1bc44" stroke-width="8" stroke-linecap="round"/><path d="M220 222c25-19 42-14 56 1m-65-5 8 4-1 9" fill="none" stroke="#2878a5" stroke-width="6" stroke-linecap="round"/></svg>
+            </button>
+            <div class="wall-card__meta"><p class="wall-card__label">COMMUNITY PREVIEW</p><h3>A little sunshine</h3><p><strong>Tushar</strong> · <time data-preview-days-ago="0"></time></p><button class="wall-like" type="button" data-like="sample-sunny" data-base-count="0" aria-pressed="false">♡ <span>Like</span> <b>0</b></button></div>
+          </article>
+          <article class="wall-card wall-card--sample" style="--card-tilt:1.5deg">
+            <button class="wall-card__art wall-card__art--night" type="button" data-sample-art="night" aria-label="Preview Studio sample: Moon thoughts">
+              <svg viewBox="0 0 420 280" role="img" aria-label="A moon and little stars"><path d="M127 65c-47 47-25 127 32 144 24 7 52 2 70-14-47 2-84-35-83-82 0-19 8-36 20-49-13-3-27-2-39 1Z" fill="#f0d27e"/><path d="m282 76 6 17 17 6-17 6-6 17-6-17-17-6 17-6zm40 80 4 11 11 4-11 4-4 11-4-11-11-4 11-4z" fill="none" stroke="#fd7a77" stroke-width="5" stroke-linejoin="round"/><path d="M92 224c72-33 165-35 238-2" fill="none" stroke="#b7c5e2" stroke-width="6" stroke-linecap="round"/></svg>
+            </button>
+            <div class="wall-card__meta"><p class="wall-card__label">COMMUNITY PREVIEW</p><h3>Moon thoughts</h3><p><strong>Vansh</strong> · <time data-preview-days-ago="1"></time></p><button class="wall-like" type="button" data-like="sample-night" data-base-count="0" aria-pressed="false">♡ <span>Like</span> <b>0</b></button></div>
+          </article>
+          <article class="wall-card wall-card--sample" style="--card-tilt:-1deg">
+            <button class="wall-card__art wall-card__art--garden" type="button" data-sample-art="garden" aria-label="Preview Studio sample: Tiny garden">
+              <svg viewBox="0 0 420 280" role="img" aria-label="A playful little garden"><path d="M108 212c-2-73 26-113 68-112 16 52-9 93-68 112Zm68 1c-4-74 30-111 73-102 9 52-17 89-73 102Zm74 0c9-61 43-89 82-72 0 44-30 70-82 72Z" fill="none" stroke="#71906a" stroke-width="9" stroke-linejoin="round"/><path d="M116 228h214" stroke="#987b5d" stroke-width="8" stroke-linecap="round"/><circle cx="112" cy="86" r="19" fill="#fd5d5c"/><circle cx="160" cy="69" r="12" fill="#f1bc44"/><circle cx="255" cy="74" r="16" fill="#fd5d5c"/><circle cx="323" cy="106" r="13" fill="#2878a5"/></svg>
+            </button>
+            <div class="wall-card__meta"><p class="wall-card__label">COMMUNITY PREVIEW</p><h3>Tiny garden</h3><p><strong>Guddu</strong> · <time data-preview-days-ago="0"></time></p><button class="wall-like" type="button" data-like="sample-garden" data-base-count="0" aria-pressed="false">♡ <span>Like</span> <b>0</b></button></div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="playground-dialog" id="gallery-dialog" aria-labelledby="gallery-dialog-title">
+      <form class="playground-dialog__card" id="gallery-form">
+        <button class="playground-dialog__close" type="button" data-close-dialog="gallery-dialog" aria-label="Close preview">×</button>
+        <p class="playground-eyebrow">Keep this little thing</p><h2 id="gallery-dialog-title">Save to your gallery</h2>
+        <img class="gallery-preview" id="gallery-preview" alt="Preview of your drawing" />
+        <label class="dialog-label">Display name <span>(optional)</span><input name="creator" maxlength="32" placeholder="Anonymous" /></label>
+        <label class="dialog-label">Caption <span>(optional)</span><input name="caption" maxlength="80" placeholder="A tiny masterpiece" /></label>
+        <p class="dialog-note">This saves on this device only. It will not appear publicly until a shared gallery is connected.</p>
+        <button class="dialog-submit" type="submit">Save this creation <span aria-hidden="true">↗</span></button>
+      </form>
+    </dialog>
+
+    <dialog class="playground-dialog" id="art-preview-dialog" aria-labelledby="art-preview-title">
+      <div class="playground-dialog__card playground-dialog__card--preview"><button class="playground-dialog__close" type="button" data-close-dialog="art-preview-dialog" aria-label="Close artwork preview">×</button><p class="playground-eyebrow">A closer look</p><h2 id="art-preview-title">Artwork preview</h2><img class="gallery-preview gallery-preview--large" id="art-preview-image" alt="Expanded artwork" /><p id="art-preview-caption" class="dialog-note"></p></div>
+    </dialog>
+
+    <dialog class="playground-dialog" id="send-art-dialog" aria-labelledby="send-art-title">
+      <div class="playground-dialog__card"><button class="playground-dialog__close" type="button" data-close-dialog="send-art-dialog" aria-label="Close send information">×</button><p class="playground-eyebrow">Share your doodle</p><h2 id="send-art-title">Send to Arsh</h2><img class="gallery-preview" id="send-art-preview" alt="Preview of the artwork to send" /><p class="dialog-note">Artwork email delivery is not connected yet. The current contact endpoint accepts text only, so it cannot include your drawing. Save the PNG to your device, then attach it to your email.</p><a class="dialog-submit dialog-submit--link" href="mailto:prabhatarsh1974@gmail.com?subject=My%20Playground%20creation">Email Arsh <span aria-hidden="true">↗</span></a></div>
+    </dialog>
+
+    <nav class="nav playground-nav" aria-label="Main navigation">
+      <a href="index.html#home" data-cursor-label="Back to Home" data-cursor-theme="pink">Home</a>
+      <a href="about.html" data-cursor-label="Meet Arsh" data-cursor-theme="blue">About</a>
+      <a href="public/assets/Arsh%20UIUX%20Resume.pdf" target="_blank" rel="noopener" data-cursor-label="Open resume" data-cursor-theme="green">Resume</a>
+      <a class="active" href="playground.html" aria-current="page" data-cursor-label="Make something" data-cursor-theme="orange">Playground</a>
+    </nav>
+    <div class="custom-cursor" aria-hidden="true"><svg class="custom-cursor__pointer" viewBox="0 0 39.0331 39.0589" focusable="false" aria-hidden="true"><path d="M34.8794 18.9667L24.8203 23.8057L24.7085 23.8718C24.6389 23.9221 24.5786 23.9844 24.5305 24.0556L24.4682 24.1689L19.6804 34.9291L11.8601 12.2235L34.8794 18.9667Z" fill="var(--cursor-color, #fd5d5c)" stroke="white" stroke-width=".88" /></svg><span class="custom-cursor__tag"></span></div>
+  </body>
+</html>
