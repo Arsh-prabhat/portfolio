@@ -13,7 +13,7 @@
   const main = document.querySelector('main');
   const previousInert = main?.inert ?? false;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const greetings = ['Hello', 'Hola', 'Namaste', 'Bonjour', 'Salaam', 'Ciao', 'Konnichiwa', 'Jambo'];
+  const greetings = ['Hello', 'Hola', 'Namaste', 'Ciao', 'Konnichiwa'];
   greeting.replaceChildren();
   const wordNodes = greetings.map((word) => {
     const wordNode = document.createElement('span');
@@ -88,6 +88,9 @@
     const topTear = overlay?.querySelector('.page-tear__top');
     const bottomTear = overlay?.querySelector('.page-tear__bottom');
     if (!overlay || !topTear || !bottomTear) {
+      intro.hidden = true;
+      intro.classList.remove('is-leaving', 'is-fast-leaving');
+      root.classList.remove('welcome-intro-pending');
       restorePage();
       return;
     }
@@ -96,6 +99,9 @@
     const duration = fast ? 560 : 780;
     const finishReveal = () => {
       overlay.hidden = true;
+      intro.hidden = true;
+      intro.classList.remove('is-leaving', 'is-fast-leaving');
+      root.classList.remove('welcome-intro-pending');
       restorePage();
     };
 
@@ -124,15 +130,9 @@
     timeline?.kill();
     window.clearTimeout(greetingTimer);
 
-    const beginReveal = () => {
-      intro.hidden = true;
-      intro.classList.remove('is-leaving', 'is-fast-leaving');
-      root.classList.remove('welcome-intro-pending');
-      revealWithTear(fast);
-    };
-
     if (reducedMotion) {
       intro.hidden = true;
+      intro.classList.remove('is-leaving', 'is-fast-leaving');
       root.classList.remove('welcome-intro-pending');
       restorePage();
       return;
@@ -142,7 +142,9 @@
     restartHeroEntrance();
     if (fast) intro.classList.add('is-fast-leaving');
     intro.classList.add('is-leaving');
-    window.setTimeout(beginReveal, fast ? 260 : 460);
+    // Start the tear behind the fading intro so the grid and hero art are
+    // revealed together instead of flashing as an unanimated page first.
+    revealWithTear(fast);
   };
 
   skip?.addEventListener('click', () => finish(true));
