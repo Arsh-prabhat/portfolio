@@ -49,6 +49,7 @@
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const compactLayout = window.matchMedia('(max-width: 1100px)').matches;
   const portraitStage = window.matchMedia('(max-width: 1100px) and (orientation: portrait)');
+  const immersiveDesktop = window.matchMedia('(min-width: 1101px) and (orientation: landscape)');
   const gsap = window.gsap;
 
   const syncAboutSceneScale = () => {
@@ -75,6 +76,21 @@
       collage.style.transformOrigin = 'top left';
       collage.style.transform = `scale(${scale})`;
       scene.style.setProperty('--about-scene-scale', String(scale));
+      return;
+    }
+
+    if (immersiveDesktop.matches) {
+      // On desktop the scrapbook is the full-viewport composition. The fixed
+      // navigation remains above it as a separate foreground layer, matching
+      // the desktop reference instead of shrinking the art to fit above the nav.
+      const viewportHeight = window.visualViewport?.height || window.innerHeight;
+      collage.style.width = `${availableWidth}px`;
+      collage.style.height = `${viewportHeight}px`;
+      collage.style.left = '0px';
+      collage.style.top = '0px';
+      collage.style.transformOrigin = 'top left';
+      collage.style.transform = 'none';
+      scene.style.setProperty('--about-scene-scale', '1');
       return;
     }
 
