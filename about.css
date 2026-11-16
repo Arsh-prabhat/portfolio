@@ -90,7 +90,7 @@
   .sticker:hover .doodle { opacity: 1; visibility: visible; transition-delay: 0s; animation: doodle-reveal .58s cubic-bezier(.2,.75,.25,1) both; }
   .sticker:hover .doodle path, .sticker:hover .doodle circle { animation: doodle-stroke .58s ease-out both; }
 }
-.about-nav { z-index: 40; }
+.about-nav { z-index: 40; bottom: max(16px, env(safe-area-inset-bottom)); }
 .about-nav a[aria-current="page"] { color: #ff6868; }
 @media (max-width: 900px) and (min-width: 621px) {
   .collage { min-height: 680px; }
